@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Наши в НХЛ — утренняя сводка</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+  --bg:#eef2f6; --ice:#ffffff; --ink:#0f2238; --ink2:#4a5a6d; --line:#d6dee8;
+  --red:#c8102e; --red-soft:#fbe3e7; --blue:#1d4ed8; --blue-soft:#e3ebfb; --gold:#b7791f; --gold-soft:#fbf0d9;
+  --radius:14px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0c1520; --ice:#142030; --ink:#eef3f8; --ink2:#9fb0c3; --line:#243447;
+    --red:#ff4d63; --red-soft:#3a1a22; --blue:#7aa2ff; --blue-soft:#1b2a4a; --gold:#e3b04b; --gold-soft:#3a2f16;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0c1520; --ice:#142030; --ink:#eef3f8; --ink2:#9fb0c3; --line:#243447;
+  --red:#ff4d63; --red-soft:#3a1a22; --blue:#7aa2ff; --blue-soft:#1b2a4a; --gold:#e3b04b; --gold-soft:#3a2f16;
+}
+html{scroll-padding-top:env(safe-area-inset-top,0px);height:100%}
+*{box-sizing:inherit}
+body{margin:0;height:100%;background:var(--bg);color:var(--ink);
+  font-family:"Inter Tight",ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+  font-size:16px;line-height:1.45;-webkit-font-smoothing:antialiased}
+a{color:inherit}
+.wrap{max-width:720px;margin:0 auto;padding:0 16px 56px}
+
+header{padding:22px 0 12px}
+header h1{margin:0;font-size:30px;font-weight:800;letter-spacing:-.02em;line-height:1.05}
+header .sub{margin:6px 0 0;color:var(--ink2);font-size:15px}
+.totals{display:flex;gap:18px;margin:16px 0 6px;flex-wrap:wrap}
+.totals div{font-size:15px;color:var(--ink2)}
+.totals b{display:block;font-size:28px;font-weight:800;color:var(--ink);line-height:1;letter-spacing:-.02em}
+
+nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);padding:10px 0;display:flex;gap:6px;overflow-x:auto;scrollbar-width:none}
+nav::-webkit-scrollbar{display:none}
+nav button{flex:0 0 auto;border:1px solid var(--line);background:var(--ice);color:var(--ink);font:inherit;font-weight:600;font-size:14px;padding:8px 14px;border-radius:999px;cursor:pointer}
+nav button[aria-selected="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+nav button:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+
+section{display:none;padding-top:8px}
+section.on{display:block}
+h2{font-size:14px;font-weight:600;color:var(--ink2);margin:18px 0 8px}
+
+.moment{background:var(--ice);border:1px solid var(--line);border-radius:var(--radius);padding:14px 16px;margin-bottom:10px}
+.moment.lead{border-color:var(--red);border-width:2px}
+.m-top{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+.m-top .who{font-weight:800;font-size:19px;letter-spacing:-.01em}
+.m-top .club{color:var(--ink2);font-size:14px}
+.badge{margin-left:auto;font-weight:800;font-size:15px;padding:3px 10px;border-radius:8px;white-space:nowrap}
+.badge.goal{background:var(--red-soft);color:var(--red)}
+.badge.assist{background:var(--blue-soft);color:var(--blue)}
+.badge.save{background:var(--gold-soft);color:var(--gold)}
+.m-what{margin:6px 0 0;font-size:15px}
+.m-score{margin:6px 0 0;color:var(--ink2);font-size:14px}
+.m-score b{color:var(--ink)}
+.links{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
+.links a{text-decoration:none;font-size:14px;font-weight:600;padding:8px 12px;border-radius:9px;border:1px solid var(--line);background:var(--bg)}
+.links a.yt{border-color:var(--red);color:var(--red)}
+.links a:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+
+.tbl{width:100%;border-collapse:collapse;background:var(--ice);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;font-size:15px}
+.scroll{overflow-x:auto;border-radius:var(--radius)}
+.tbl th,.tbl td{padding:9px 10px;text-align:left;border-bottom:1px solid var(--line);white-space:nowrap}
+.tbl th{font-size:13px;font-weight:600;color:var(--ink2)}
+.tbl tr:last-child td{border-bottom:none}
+.tbl td.n{font-weight:600}
+.tbl td.c{color:var(--ink2)}
+.tbl td.r{text-align:right;font-variant-numeric:tabular-nums}
+.tbl tr.pts td.n{color:var(--red)}
+.tbl th.r{text-align:right}
+
+.game{background:var(--ice);border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin-bottom:8px;display:grid;grid-template-columns:1fr auto;gap:4px 12px;align-items:center}
+.game .teams{font-weight:600}
+.game .teams span{display:block}
+.game .score{font-weight:800;font-size:22px;letter-spacing:-.02em;font-variant-numeric:tabular-nums;text-align:right;line-height:1.1}
+.game .score small{display:block;font-size:12px;font-weight:600;color:var(--ink2)}
+.game .ru{grid-column:1/-1;color:var(--ink2);font-size:14px}
+.game .ru b{color:var(--ink);font-weight:600}
+.game .time{font-weight:800;font-size:20px;text-align:right}
+.note{color:var(--ink2);font-size:14px;margin:10px 0}
+footer{margin-top:28px;color:var(--ink2);font-size:13px;line-height:1.5}
+footer a{color:var(--ink2)}
+@media (max-width:420px){header h1{font-size:26px}.totals{gap:14px}.totals b{font-size:24px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <h1>Наши в НХЛ</h1>
+  <p class="sub" id="sub"></p>
+  <div class="totals" id="totals"></div>
+</header>
+
+<nav role="tablist" id="tabs">
+  <button role="tab" aria-selected="true" data-t="moments">Голы и моменты</button>
+  <button role="tab" aria-selected="false" data-t="players">Все россияне</button>
+  <button role="tab" aria-selected="false" data-t="games">Все матчи</button>
+  <button role="tab" aria-selected="false" data-t="tonight">Сегодня ночью</button>
+</nav>
+
+<section id="moments" class="on"></section>
+<section id="players"></section>
+<section id="games"></section>
+<section id="tonight"></section>
+
+<footer id="foot"></footer>
+</div>
+
+<script>
+// ===== ДАННЫЕ (обновляются каждое утро) =====
+const DATA = {
+  updated: "утро 11 октября 2026",
+  night: "матчи в ночь с 10 на 11 октября",
+  totals: [["14","матчей"],["39","россиян на льду"],["10","шайб наших"]],
+  moments: [
+    {who:"Кирилл Капризов", club:"Миннесота", badge:["goal","3+1"], lead:true,
+     what:"Хет-трик и передача — участвовал во всех четырёх голах команды. Пас на первый гол на 53-й секунде, затем гол в большинстве на 7-й минуте, второй — во втором периоде, третий — в пустые ворота за 64 секунды до сирены. Первая звезда матча, седьмой хет-трик в карьере.",
+     score:"Флорида — Миннесота", res:"1:4", yt:"Minnesota Wild Florida Panthers highlights Kaprizov hat trick October 10 2026", ya:"Миннесота Флорида обзор матча Капризов хет-трик 11 октября 2026"},
+    {who:"Василий Подколзин", club:"Эдмонтон", badge:["goal","1+0"],
+     what:"Забил после передачи Макдэвида в начале третьего периода и сделал счёт 3:1 — гол стал победным. Пятый гол в пяти матчах, очки во всех играх сезона.",
+     score:"Сан-Хосе — Эдмонтон", res:"1:3", yt:"Edmonton Oilers San Jose Sharks highlights Podkolzin October 10 2026", ya:"Сан-Хосе Эдмонтон обзор матча Подколзин 11 октября 2026"},
+    {who:"Роман Канцеров", club:"Чикаго", badge:["goal","1+0"],
+     what:"Первый гол в НХЛ: перехватил шайбу у своей синей линии, убежал один на один с Басси и забил. Чикаго всё равно уступил.",
+     score:"Чикаго — Каролина", res:"2:5", yt:"Chicago Blackhawks Carolina Hurricanes highlights Kantserov first NHL goal", ya:"Чикаго Каролина обзор матча Канцеров первый гол в НХЛ"},
+    {who:"Айдар Суниев", club:"Калгари", badge:["goal","1+0"],
+     what:"Дебютный гол в НХЛ: получил передачу Коронато из-за ворот и бросил с острого угла — 2:2 в конце второго периода. В третьем Анахайм забил дважды.",
+     score:"Калгари — Анахайм", res:"2:4", yt:"Calgary Flames Anaheim Ducks highlights Suniev first NHL goal", ya:"Калгари Анахайм обзор матча Суниев первый гол в НХЛ"},
+    {who:"Артемий Панарин", club:"Лос-Анджелес", badge:["goal","1+0"],
+     what:"Гол в большинстве, единственный у Кингз. Вегас сравнял и выиграл в овертайме.",
+     score:"Вегас — Лос-Анджелес", res:"2:1 ОТ", yt:"Vegas Golden Knights Los Angeles Kings highlights Panarin October 10 2026", ya:"Вегас Лос-Анджелес обзор матча Панарин 11 октября 2026"},
+    {who:"Марат Хуснутдинов", club:"Бостон", badge:["goal","1+0"],
+     what:"Гол в разгромной победе над Филадельфией.",
+     score:"Бостон — Филадельфия", res:"5:1", yt:"Boston Bruins Philadelphia Flyers highlights Khusnutdinov October 10 2026", ya:"Бостон Филадельфия обзор матча Хуснутдинов 11 октября 2026"},
+    {who:"Валерий Ничушкин и Павел Бучневич", club:"Коламбус / Сент-Луис", badge:["goal","1 + 1"],
+     what:"Ничушкин открыл счёт в матче, Бучневич его закрыл — шайба в пустые ворота на последней минуте.",
+     score:"Сент-Луис — Коламбус", res:"5:3", yt:"St. Louis Blues Columbus Blue Jackets highlights October 10 2026", ya:"Сент-Луис Коламбус обзор матча Ничушкин Бучневич 11 октября 2026"},
+    {who:"Никита Кучеров", club:"Тампа-Бэй", badge:["assist","0+2"],
+     what:"Две передачи: на гол Генцела в большинстве и на третий гол Хэйгела, который оформил хет-трик. Василевский отразил 20 бросков из 23, Сорокин у Айлендерс — 21 из 25.",
+     score:"Айлендерс — Тампа-Бэй", res:"3:5", yt:"Tampa Bay Lightning New York Islanders highlights Kucherov October 10 2026", ya:"Айлендерс Тампа обзор матча Кучеров 11 октября 2026"},
+    {who:"Даниил Тарасов", club:"Детройт", badge:["save","30/30"],
+     what:"Отразил все 30 бросков Монреаля, трижды голы хозяев отменяли. Команда проиграла только в шестом раунде буллитов, но Тарасову записан «сухой» матч.",
+     score:"Монреаль — Детройт", res:"1:0 Б", yt:"Montreal Canadiens Detroit Red Wings highlights Tarasov shootout October 10 2026", ya:"Монреаль Детройт обзор матча Тарасов буллиты 11 октября 2026"},
+    {who:"Сергей Бобровский", club:"Торонто", badge:["save","30/33"],
+     what:"Первая победа в сезоне. Марченко сделал передачу, Нюландер набрал 5 очков.",
+     score:"Колорадо — Торонто", res:"3:6", yt:"Toronto Maple Leafs Colorado Avalanche highlights Bobrovsky October 10 2026", ya:"Колорадо Торонто обзор матча Бобровский 11 октября 2026"}
+  ],
+  skaters: [
+    ["Кирилл Капризов","Миннесота","3+1",4,"20:11"],
+    ["Никита Кучеров","Тампа-Бэй","0+2",1,"17:46"],
+    ["Василий Подколзин","Эдмонтон","1+0",1,"20:48"],
+    ["Роман Канцеров","Чикаго","1+0",3,"15:48"],
+    ["Айдар Суниев","Калгари","1+0",2,"15:49"],
+    ["Артемий Панарин","Лос-Анджелес","1+0",5,"21:08"],
+    ["Марат Хуснутдинов","Бостон","1+0",3,"13:27"],
+    ["Валерий Ничушкин","Коламбус","1+0",4,"16:27"],
+    ["Павел Бучневич","Сент-Луис","1+0",2,"17:02"],
+    ["Арсений Грицюк","Нью-Джерси","0+1",1,"12:57"],
+    ["Максим Шабанов","Миннесота","0+1",1,"13:27"],
+    ["Кирилл Марченко","Торонто","0+1",0,"16:53"],
+    ["Михаил Сергачёв","Юта","0+1",3,"25:23"],
+    ["Павел Минтюков","Анахайм","0+1",2,"19:49"],
+    ["Матвей Мичков","Филадельфия","0+0",2,"15:35"],
+    ["Никита Задоров","Бостон","0+0",4,"22:37"],
+    ["Андрей Свечников","Каролина","0+0",2,"15:46"],
+    ["Шакир Мухамадуллин","Эдмонтон","0+0",0,"11:18"],
+    ["Дмитрий Орлов","Сан-Хосе","0+0",1,"18:20"],
+    ["Игорь Чернышов","Сан-Хосе","0+0",1,"11:03"],
+    ["Данила Юров","Миннесота","0+0",2,"15:08"],
+    ["Яков Тренин","Миннесота","0+0",1,"12:36"],
+    ["Дмитрий Куликов","Флорида","0+0",1,"14:22"],
+    ["Фёдор Свечков","Колорадо","0+0",1,"11:18"],
+    ["Дмитрий Воронков","Коламбус","0+0",0,"12:39"],
+    ["Даниил Бут","Юта","0+0",2,"10:29"],
+    ["Дмитрий Симашев","Юта","0+0",2,"13:25"],
+    ["Евгений Малкин","Питтсбург","0+0",2,"19:54"],
+    ["Егор Чинахов","Питтсбург","0+0",2,"15:54"],
+    ["Илья Михеев","Тампа-Бэй","0+0",0,"15:16"],
+    ["Матвей Гридин","Калгари","0+0",3,"14:54"],
+    ["Ян Кузнецов","Калгари","0+0",1,"18:19"],
+    ["Максим Цыплаков","Калгари","0+0",1,"11:28"],
+    ["Иван Барбашёв","Вегас","0+0",0,"19:08"]
+  ],
+  goalies: [
+    ["Даниил Тарасов","Детройт","30 из 30","100%"],
+    ["Сергей Бобровский","Торонто","30 из 33","90,9%"],
+    ["Андрей Василевский","Тампа-Бэй","20 из 23","87,0%"],
+    ["Ярослав Аскаров","Сан-Хосе","17 из 20","85,0%"],
+    ["Илья Сорокин","Айлендерс","21 из 25","84,0%"]
+  ],
+  games: [
+    ["Бостон","Филадельфия",5,1,"","Хуснутдинов — гол; Задоров; Мичков"],
+    ["Нью-Джерси","Ванкувер",4,1,"","Грицюк — пас"],
+    ["Сан-Хосе","Эдмонтон",1,3,"","Подколзин — гол; Аскаров 17/20; Орлов, Чернышов, Мухамадуллин"],
+    ["Флорида","Миннесота",1,4,"","Капризов 3+1; Шабанов — пас; Юров, Тренин, Куликов"],
+    ["Сент-Луис","Коламбус",5,3,"","Бучневич — гол; Ничушкин — гол; Воронков"],
+    ["Чикаго","Каролина",2,5,"","Канцеров — первый гол в НХЛ; Свечников"],
+    ["Оттава","Нэшвилл",3,2,"","—"],
+    ["Баффало","Юта",1,4,"","Сергачёв — пас; Бут, Симашев"],
+    ["Монреаль","Детройт",1,0,"Б","Тарасов 30/30, «сухой» матч"],
+    ["Питтсбург","Даллас",2,1,"","Малкин, Чинахов"],
+    ["Колорадо","Торонто",3,6,"","Бобровский 30/33; Марченко — пас; Свечков"],
+    ["Айлендерс","Тампа-Бэй",3,5,"","Кучеров 0+2; Василевский 20/23; Сорокин 21/25; Михеев"],
+    ["Калгари","Анахайм",2,4,"","Суниев — первый гол в НХЛ; Минтюков — пас; Гридин, Кузнецов, Цыплаков"],
+    ["Вегас","Лос-Анджелес",2,1,"ОТ","Панарин — гол; Барбашёв"]
+  ],
+  tonight: [
+    ["Вашингтон","Сиэтл","02:00","Овечкин — последний сезон"],
+    ["Рейнджерс","Ванкувер","03:00","Шестёркин выбыл до конца сезона"],
+    ["Филадельфия","Каролина","04:00","Мичков против Свечникова"]
+  ],
+  source: {title:"Россияне в НХЛ 11 октября (Metaratings)", url:"https://metaratings.ru/news/rossiyane-nhl-11-oktyabrya-2026-661119/"}
+};
+
+// ===== РЕНДЕР =====
+const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const yt = q => "https://www.youtube.com/results?search_query=" + encodeURIComponent(q);
+const ya = q => "https://yandex.ru/video/search?text=" + encodeURIComponent(q);
+
+document.getElementById('sub').textContent = DATA.night + " · обновлено " + DATA.updated;
+document.getElementById('totals').innerHTML = DATA.totals.map(([n,l]) => `<div><b>${esc(n)}</b>${esc(l)}</div>`).join('');
+
+document.getElementById('moments').innerHTML = DATA.moments.map(m => `
+  <article class="moment${m.lead?' lead':''}">
+    <div class="m-top"><span class="who">${esc(m.who)}</span><span class="club">${esc(m.club)}</span>
+      <span class="badge ${m.badge[0]}">${esc(m.badge[1])}</span></div>
+    <p class="m-what">${esc(m.what)}</p>
+    <p class="m-score">${esc(m.score)} <b>${esc(m.res)}</b></p>
+    <div class="links">
+      <a class="yt" href="${yt(m.yt)}" target="_blank" rel="noopener">Смотреть на YouTube</a>
+      <a href="${ya(m.ya)}" target="_blank" rel="noopener">Видео в Яндексе</a>
+    </div>
+  </article>`).join('') + `<p class="note">Кнопки открывают поиск обзора матча — сами клипы лежат у вещателей, у кого есть YouTube или Окко, найдёт нужный момент за минуту.</p>`;
+
+document.getElementById('players').innerHTML = `
+  <h2>Полевые игроки — ${DATA.skaters.length}</h2>
+  <div class="scroll"><table class="tbl"><thead><tr><th>Игрок</th><th>Клуб</th><th class="r">Г+П</th><th class="r">Броски</th><th class="r">Время</th></tr></thead><tbody>
+  ${DATA.skaters.map(([n,c,p,s,t]) => `<tr class="${p!=='0+0'?'pts':''}"><td class="n">${esc(n)}</td><td class="c">${esc(c)}</td><td class="r">${esc(p)}</td><td class="r">${s}</td><td class="r">${esc(t)}</td></tr>`).join('')}
+  </tbody></table></div>
+  <h2>Вратари — ${DATA.goalies.length}</h2>
+  <div class="scroll"><table class="tbl"><thead><tr><th>Вратарь</th><th>Клуб</th><th class="r">Отражено</th><th class="r">% сейвов</th></tr></thead><tbody>
+  ${DATA.goalies.map(([n,c,s,p]) => `<tr><td class="n">${esc(n)}</td><td class="c">${esc(c)}</td><td class="r">${esc(s)}</td><td class="r">${esc(p)}</td></tr>`).join('')}
+  </tbody></table></div>`;
+
+document.getElementById('games').innerHTML = DATA.games.map(([h,a,hs,as,x,ru]) => `
+  <div class="game">
+    <div class="teams"><span>${esc(h)}</span><span>${esc(a)}</span></div>
+    <div class="score">${hs}:${as}${x?`<small>${esc(x)}</small>`:''}</div>
+    <div class="ru"><b>Наши:</b> ${esc(ru)}</div>
+  </div>`).join('');
+
+document.getElementById('tonight').innerHTML = `<p class="note">Время екатеринбургское.</p>` + DATA.tonight.map(([h,a,t,ru]) => `
+  <div class="game">
+    <div class="teams"><span>${esc(h)}</span><span>${esc(a)}</span></div>
+    <div class="time">${esc(t)}</div>
+    <div class="ru">${esc(ru)}</div>
+  </div>`).join('');
+
+document.getElementById('foot').innerHTML = `Статистика россиян — по сводке <a href="${esc(DATA.source.url)}" target="_blank" rel="noopener">${esc(DATA.source.title)}</a>, результаты матчей — по данным лиги.`;
+
+// вкладки
+const tabs = document.getElementById('tabs');
+tabs.addEventListener('click', e => {
+  const b = e.target.closest('button'); if(!b) return;
+  tabs.querySelectorAll('button').forEach(x => x.setAttribute('aria-selected', x===b));
+  document.querySelectorAll('section').forEach(s => s.classList.toggle('on', s.id===b.dataset.t));
+  try{ localStorage.setItem('nhl-tab', b.dataset.t); }catch(_){}
+});
+try{ const t = localStorage.getItem('nhl-tab'); if(t){ const b = tabs.querySelector(`[data-t="${t}"]`); if(b) b.click(); } }catch(_){}
+</script>
+</body>
+</html>
