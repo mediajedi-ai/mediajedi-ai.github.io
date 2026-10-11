@@ -87,6 +87,25 @@ h2{font-size:14px;font-weight:600;color:var(--ink2);margin:18px 0 8px}
 .game .ru b{color:var(--ink);font-weight:600}
 .game .time{font-weight:800;font-size:20px;text-align:right}
 .note{color:var(--ink2);font-size:14px;margin:10px 0}
+
+/* схема гола */
+.rink-wrap{margin-top:12px;border-top:1px solid var(--line);padding-top:10px}
+.rink-cap{font-size:14px;color:var(--ink2);margin:0 0 6px}
+.rink-cap b{color:var(--ink);font-weight:600}
+.rink{display:block;width:100%;height:auto;border-radius:10px;cursor:pointer}
+.rink .ice{fill:#f6f9fc;stroke:#b9c7d6;stroke-width:1.5}
+.rink .ln{stroke:#c53a4a;stroke-width:1.2;fill:none}
+.rink .bl{stroke:#2b5fd3;stroke-width:1.6;fill:none}
+.rink .cr{stroke:#c53a4a;stroke-width:1;fill:none;opacity:.6}
+.rink .net{fill:#d6e0ec;stroke:#8a9bb0;stroke-width:1}
+.rink .pl{stroke:#fff;stroke-width:1.5}
+.rink .pl.s{fill:#c8102e}.rink .pl.a{fill:#1d4ed8}.rink .pl.g{fill:#6b7a8c}
+.rink .nm{font:700 7px "Inter Tight",sans-serif;fill:#fff;text-anchor:middle;dominant-baseline:central}
+.rink .lbl{font:600 7px "Inter Tight",sans-serif;fill:#0f2238;text-anchor:middle}
+.rink .trace{stroke:#0f2238;stroke-width:1.2;fill:none;stroke-dasharray:3 3;opacity:.45}
+.rink .puck{fill:#0f2238}
+.rink-hint{font-size:12px;color:var(--ink2);margin:4px 0 0}
+@media (prefers-reduced-motion:reduce){.rink animateMotion{display:none}}
 footer{margin-top:28px;color:var(--ink2);font-size:13px;line-height:1.5}
 footer a{color:var(--ink2)}
 @media (max-width:420px){header h1{font-size:26px}.totals{gap:14px}.totals b{font-size:24px}}
@@ -122,25 +141,39 @@ const DATA = {
   night: "матчи в ночь с 10 на 11 октября",
   totals: [["14","матчей"],["39","россиян на льду"],["10","шайб наших"]],
   moments: [
-    {who:"Кирилл Капризов", club:"Миннесота", badge:["goal","3+1"], lead:true,
+    {who:"Кирилл Капризов",
+     goals:[
+       {t:"1-й гол, большинство, 7-я минута", pass:{x:296,y:28,n:"ШАБ"}, shot:{x:328,y:52,n:"КАП"}, via:"Шабанов отдал с борта, Капризов бросил из левого круга"},
+       {t:"2-й гол, второй период", shot:{x:342,y:86,n:"КАП"}, via:"Бросок с пятака; схема условная — в отчётах без деталей"},
+       {t:"3-й гол, пустые ворота, за 1:04 до сирены", shot:{x:130,y:96,n:"КАП"}, empty:true, via:"Бросок из своей зоны через всю площадку"}
+     ], club:"Миннесота", badge:["goal","3+1"], lead:true,
      what:"Хет-трик и передача — участвовал во всех четырёх голах команды. Пас на первый гол на 53-й секунде, затем гол в большинстве на 7-й минуте, второй — во втором периоде, третий — в пустые ворота за 64 секунды до сирены. Первая звезда матча, седьмой хет-трик в карьере.",
      score:"Флорида — Миннесота", res:"1:4", yt:"Minnesota Wild Florida Panthers highlights Kaprizov hat trick October 10 2026", ya:"Миннесота Флорида обзор матча Капризов хет-трик 11 октября 2026"},
-    {who:"Василий Подколзин", club:"Эдмонтон", badge:["goal","1+0"],
+    {who:"Василий Подколзин",
+     goals:[{t:"Победный гол, начало третьего периода", pass:{x:300,y:128,n:"МАК"}, shot:{x:344,y:74,n:"ПОД"}, via:"Макдэвид отдал с правого фланга, Подколзин замкнул с пятака"}], club:"Эдмонтон", badge:["goal","1+0"],
      what:"Забил после передачи Макдэвида в начале третьего периода и сделал счёт 3:1 — гол стал победным. Пятый гол в пяти матчах, очки во всех играх сезона.",
      score:"Сан-Хосе — Эдмонтон", res:"1:3", yt:"Edmonton Oilers San Jose Sharks highlights Podkolzin October 10 2026", ya:"Сан-Хосе Эдмонтон обзор матча Подколзин 11 октября 2026"},
-    {who:"Роман Канцеров", club:"Чикаго", badge:["goal","1+0"],
+    {who:"Роман Канцеров",
+     goals:[{t:"Первый гол в НХЛ, 5-я минута второго периода", start:{x:118,y:66,n:"КАН"}, shot:{x:350,y:84,n:"КАН"}, via:"Перехват у своей синей линии, выход один на один с Басси"}], club:"Чикаго", badge:["goal","1+0"],
      what:"Первый гол в НХЛ: перехватил шайбу у своей синей линии, убежал один на один с Басси и забил. Чикаго всё равно уступил.",
      score:"Чикаго — Каролина", res:"2:5", yt:"Chicago Blackhawks Carolina Hurricanes highlights Kantserov first NHL goal", ya:"Чикаго Каролина обзор матча Канцеров первый гол в НХЛ"},
-    {who:"Айдар Суниев", club:"Калгари", badge:["goal","1+0"],
+    {who:"Айдар Суниев",
+     goals:[{t:"Первый гол в НХЛ, 18-я минута второго периода", pass:{x:384,y:112,n:"КОР"}, shot:{x:362,y:36,n:"СУН"}, via:"Коронато отдал из-за ворот, бросок с острого угла"}], club:"Калгари", badge:["goal","1+0"],
      what:"Дебютный гол в НХЛ: получил передачу Коронато из-за ворот и бросил с острого угла — 2:2 в конце второго периода. В третьем Анахайм забил дважды.",
      score:"Калгари — Анахайм", res:"2:4", yt:"Calgary Flames Anaheim Ducks highlights Suniev first NHL goal", ya:"Калгари Анахайм обзор матча Суниев первый гол в НХЛ"},
-    {who:"Артемий Панарин", club:"Лос-Анджелес", badge:["goal","1+0"],
+    {who:"Артемий Панарин",
+     goals:[{t:"Гол в большинстве", shot:{x:322,y:48,n:"ПАН"}, via:"Бросок из левого круга; схема условная"}], club:"Лос-Анджелес", badge:["goal","1+0"],
      what:"Гол в большинстве, единственный у Кингз. Вегас сравнял и выиграл в овертайме.",
      score:"Вегас — Лос-Анджелес", res:"2:1 ОТ", yt:"Vegas Golden Knights Los Angeles Kings highlights Panarin October 10 2026", ya:"Вегас Лос-Анджелес обзор матча Панарин 11 октября 2026"},
-    {who:"Марат Хуснутдинов", club:"Бостон", badge:["goal","1+0"],
+    {who:"Марат Хуснутдинов",
+     goals:[{t:"Гол в матче 5:1", shot:{x:338,y:88,n:"ХУС"}, via:"Бросок из слота; схема условная"}], club:"Бостон", badge:["goal","1+0"],
      what:"Гол в разгромной победе над Филадельфией.",
      score:"Бостон — Филадельфия", res:"5:1", yt:"Boston Bruins Philadelphia Flyers highlights Khusnutdinov October 10 2026", ya:"Бостон Филадельфия обзор матча Хуснутдинов 11 октября 2026"},
-    {who:"Валерий Ничушкин и Павел Бучневич", club:"Коламбус / Сент-Луис", badge:["goal","1 + 1"],
+    {who:"Валерий Ничушкин и Павел Бучневич",
+     goals:[
+       {t:"Ничушкин — 1:0, открыл счёт", shot:{x:336,y:80,n:"НИЧ"}, via:"Бросок из слота; схема условная"},
+       {t:"Бучневич — 5:3, пустые ворота", shot:{x:150,y:100,n:"БУЧ"}, empty:true, via:"Бросок из своей зоны в пустые ворота"}
+     ], club:"Коламбус / Сент-Луис", badge:["goal","1 + 1"],
      what:"Ничушкин открыл счёт в матче, Бучневич его закрыл — шайба в пустые ворота на последней минуте.",
      score:"Сент-Луис — Коламбус", res:"5:3", yt:"St. Louis Blues Columbus Blue Jackets highlights October 10 2026", ya:"Сент-Луис Коламбус обзор матча Ничушкин Бучневич 11 октября 2026"},
     {who:"Никита Кучеров", club:"Тампа-Бэй", badge:["assist","0+2"],
@@ -220,6 +253,61 @@ const DATA = {
   source: {title:"Россияне в НХЛ 11 октября (Metaratings)", url:"https://metaratings.ru/news/rossiyane-nhl-11-oktyabrya-2026-661119/"}
 };
 
+// ===== СХЕМА ГОЛА (площадка 400×170, атака слева направо, ворота справа) =====
+let rinkN = 0;
+function rink(g){
+  const id = 'rk' + (++rinkN);
+  const net = {x:372, y:85};
+  const from = g.pass || g.start || null;
+  const path1 = from ? `M${from.x},${from.y} L${g.shot.x},${g.shot.y}` : '';
+  const path2 = `M${g.shot.x},${g.shot.y} L${net.x-6},${net.y}`;
+  const d1 = from ? (g.start ? 1.4 : 0.7) : 0;
+  const pl = (p,cls,label) => `<circle class="pl ${cls}" cx="${p.x}" cy="${p.y}" r="9"/><text class="nm" x="${p.x}" y="${p.y}">${esc(p.n)}</text>${label?`<text class="lbl" x="${p.x}" y="${p.y+17}">${esc(label)}</text>`:''}`;
+  return `
+  <p class="rink-cap"><b>${esc(g.t)}.</b> ${esc(g.via)}</p>
+  <svg class="rink" id="${id}" viewBox="0 0 400 170" role="img" aria-label="${esc(g.t)}" onclick="playRink('${id}')">
+    <rect class="ice" x="2" y="2" width="396" height="166" rx="28"/>
+    <line class="ln" x1="200" y1="2" x2="200" y2="168"/>
+    <line class="bl" x1="125" y1="2" x2="125" y2="168"/><line class="bl" x1="275" y1="2" x2="275" y2="168"/>
+    <line class="cr" x1="28" y1="2" x2="28" y2="168"/><line class="cr" x1="372" y1="2" x2="372" y2="168"/>
+    <circle class="cr" cx="200" cy="85" r="24"/>
+    <circle class="cr" cx="330" cy="47" r="22"/><circle class="cr" cx="330" cy="123" r="22"/>
+    <circle class="cr" cx="70" cy="47" r="22"/><circle class="cr" cx="70" cy="123" r="22"/>
+    <path class="cr" d="M372,70 a18,18 0 0 0 0,30" fill="#dbe7f5"/>
+    <rect class="net" x="372" y="78" width="7" height="14"/>
+    <rect class="net" x="21" y="78" width="7" height="14"/>
+    ${from ? `<path class="trace" d="${path1}"/>` : ''}
+    <path class="trace" d="${path2}"/>
+    ${g.empty ? `<text class="lbl" x="372" y="68">пустые ворота</text>` : pl({x:364,y:85,n:"ВР"},'g')}
+    ${g.pass ? pl(g.pass,'a','пас') : ''}
+    ${g.start ? pl(g.start,'s','перехват') : ''}
+    ${pl(g.shot,'s','бросок')}
+    <circle class="puck" r="3.2" cx="0" cy="0" opacity="0">
+      <set attributeName="opacity" to="1" begin="${from ? id+'a.begin' : id+'b.begin'}" fill="freeze"/>
+      ${from ? `<animateMotion id="${id}a" dur="${d1}s" begin="indefinite" fill="freeze" path="${path1}"/>` : ''}
+      <animateMotion id="${id}b" dur="0.5s" begin="${from ? id+'a.end+0.15s' : 'indefinite'}" fill="freeze" path="${path2}"/>
+    </circle>
+  </svg>`;
+}
+function playRink(id){
+  const a = document.getElementById(id+'a'); const b = document.getElementById(id+'b');
+  if(a){ a.beginElement(); } else if(b){ b.beginElement(); }
+}
+// автозапуск: схема играет, когда видна на экране, и повторяется каждые 4 секунды
+const rinkTimers = new Map();
+function watchRinks(){
+  if(!('IntersectionObserver' in window)) { document.querySelectorAll('.rink').forEach(r => playRink(r.id)); return; }
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(en => {
+      const id = en.target.id;
+      if(en.isIntersecting){
+        if(!rinkTimers.has(id)){ setTimeout(() => playRink(id), 300); rinkTimers.set(id, setInterval(() => playRink(id), 4000)); }
+      } else if(rinkTimers.has(id)){ clearInterval(rinkTimers.get(id)); rinkTimers.delete(id); }
+    });
+  }, {threshold: 0.6});
+  document.querySelectorAll('.rink').forEach(r => io.observe(r));
+}
+
 // ===== РЕНДЕР =====
 const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const yt = q => "https://www.youtube.com/results?search_query=" + encodeURIComponent(q);
@@ -234,6 +322,7 @@ document.getElementById('moments').innerHTML = DATA.moments.map(m => `
       <span class="badge ${m.badge[0]}">${esc(m.badge[1])}</span></div>
     <p class="m-what">${esc(m.what)}</p>
     <p class="m-score">${esc(m.score)} <b>${esc(m.res)}</b></p>
+    ${m.goals ? `<div class="rink-wrap">${m.goals.map(rink).join('')}<p class="rink-hint">Схема показывает суть момента, не точные позиции. Нажатие на площадку — повтор.</p></div>` : ''}
     <div class="links">
       <a class="yt" href="${yt(m.yt)}" target="_blank" rel="noopener">Смотреть на YouTube</a>
       <a href="${ya(m.ya)}" target="_blank" rel="noopener">Видео в Яндексе</a>
@@ -265,6 +354,9 @@ document.getElementById('tonight').innerHTML = `<p class="note">Время ек�
   </div>`).join('');
 
 document.getElementById('foot').innerHTML = `Статистика россиян — по сводке <a href="${esc(DATA.source.url)}" target="_blank" rel="noopener">${esc(DATA.source.title)}</a>, результаты матчей — по данным лиги.`;
+
+watchRinks();
+document.getElementById('tabs').addEventListener('click', () => setTimeout(watchRinks, 50));
 
 // вкладки
 const tabs = document.getElementById('tabs');
