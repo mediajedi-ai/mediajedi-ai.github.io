@@ -317,7 +317,7 @@ def build():
         if not in_game:
             continue
         evs = collect_events(g, rus) if (gid not in hist["games"] or g.get("gameState") in ("LIVE","CRIT")) else \
-              [e for pid in in_game for e in hist["players"].get(str(pid), []) if str(e.get("gid")) == gid]
+              [dict(e, pid=pid) for pid in in_game for e in hist["players"].get(str(pid), []) if str(e.get("gid")) == gid]
         if g.get("gameState") not in ("LIVE","CRIT"):
             hn, an = CLUBS.get(g["homeTeam"]["abbrev"]), CLUBS.get(g["awayTeam"]["abbrev"])
             hist["games"][gid] = {"d": date.isoformat(), "m": f"{hn} — {an} {g['homeTeam'].get('score',0)}:{g['awayTeam'].get('score',0)}"}
