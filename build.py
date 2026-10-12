@@ -169,8 +169,20 @@ def goal_schemes(game_id, home_id, rus):
     return out
 
 
+def load_logos():
+    """{русское имя клуба: url логотипа} из таблицы лиги"""
+    out = {}
+    st = get("/standings/now", {}) or {}
+    for t in st.get("standings", []):
+        ab = t.get("teamAbbrev", {}).get("default"); url = t.get("teamLogo")
+        if ab in CLUBS and url:
+            out[CLUBS[ab]] = url
+    return out
+
+
 def build():
     rus = load_russians()
+    logos = load_logos()
     date = game_day()
     games = load_games(date)
     skaters, goalies, results, moments = [], [], [], []
@@ -269,7 +281,7 @@ def build():
         "night": f"матчи в ночь на {(date+timedelta(days=1)).strftime('%d.%m')}",
         "totals": [[str(len(games)), "матчей"], [str(len(set(r[0] for r in skaters)|set(r[0] for r in goalies))), "россиян на льду"], [str(ru_goals_total), "шайб наших"]],
         "moments": moments, "skaters": skaters, "goalies": goalies, "games": results, "tonight": tonight,
-        "roster": roster_list,
+        "roster": roster_list, "logos": logos,
         "source": {"title": "официальные данные НХЛ (api-web.nhle.com)", "url": "https://www.nhl.com/scores"},
     }
     return data
