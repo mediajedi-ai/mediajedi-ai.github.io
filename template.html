@@ -77,13 +77,25 @@ a{color:inherit}
 .club a.yl{font-size:12px;font-weight:600;text-decoration:none;color:var(--red);white-space:nowrap}
 .roster-grid{display:grid;grid-template-columns:1fr;gap:0 12px}
 @media (min-width:720px){.roster-grid{grid-template-columns:1fr 1fr}}
-.lg{width:22px;height:22px;object-fit:contain;vertical-align:middle;margin-right:6px}
-.game .teams span{display:flex;align-items:center;gap:6px}
-.game .lg{width:26px;height:26px;margin:0}
-.club h3 .lg{width:24px;height:24px}
-.club h3 .cl{display:flex;align-items:center;gap:8px}
-.stage-head .lg{width:28px;height:28px}
-.goal-list .who .lg{width:20px;height:20px}
+.lg{width:34px;height:34px;object-fit:contain;vertical-align:middle;margin-right:8px;flex:0 0 auto}
+.game{grid-template-columns:1fr auto;gap:6px 14px;padding:12px 14px}
+.game .teams span{display:flex;align-items:center;gap:10px;font-size:17px}
+.game .teams span+span{margin-top:6px}
+.game .lg{width:40px;height:40px;margin:0}
+.game .score{font-size:26px}
+.club h3{padding:12px 14px;font-size:16px}
+.club h3 .lg{width:36px;height:36px}
+.club h3 .cl{display:flex;align-items:center;gap:10px}
+.stage-head{align-items:center}
+.stage-head .lg{width:44px;height:44px}
+.goal-list li.player{grid-template-columns:auto 1fr auto;align-items:center}
+.goal-list li.player .meta{grid-column:2}
+.goal-list .who{display:flex;align-items:center;gap:8px}
+.goal-list .who .lg{width:36px;height:36px;margin:0}
+.m-top{align-items:center}
+.m-top .who{display:flex;align-items:center;gap:8px}
+.m-top .lg{width:36px;height:36px;margin:0}
+@media (max-width:420px){.lg{width:30px;height:30px}.game .lg{width:34px;height:34px}.stage-head .lg{width:38px;height:38px}}
 .rink .goal-flash{font:800 13px "Inter Tight",sans-serif;fill:#c8102e;text-anchor:middle;opacity:0}
 .rink .skater text{font-family:"Inter Tight",sans-serif}
 .stage-head{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;margin-bottom:6px}
@@ -166,6 +178,62 @@ h2{font-size:14px;font-weight:600;color:var(--ink2);margin:18px 0 8px}
 footer{margin-top:28px;color:var(--ink2);font-size:13px;line-height:1.5}
 footer a{color:var(--ink2)}
 @media (max-width:420px){header h1{font-size:26px}.totals{gap:14px}.totals b{font-size:24px}}
+
+/* ---- список игроков за ночь ---- */
+.plist{margin:0;padding:0;list-style:none;background:var(--ice);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden}
+.plist li{display:grid;grid-template-columns:auto 1fr auto;gap:2px 12px;align-items:center;padding:10px 14px;border-bottom:1px solid var(--line);cursor:pointer}
+.plist li:last-child{border-bottom:none}
+.plist li:hover{background:var(--bg)}
+.plist .nm{font-weight:700;font-size:16px}
+.plist .nm.pts{color:var(--red)}
+.plist .sub{grid-column:2;color:var(--ink2);font-size:13px}
+.plist .st{font-weight:800;font-size:18px;font-variant-numeric:tabular-nums;text-align:right;white-space:nowrap}
+.plist .st small{display:block;font-size:11px;font-weight:600;color:var(--ink2)}
+.plist .lg{width:36px;height:36px;margin:0}
+.club .pr{cursor:pointer}.club .pr:hover{background:var(--bg)}
+/* ---- карточка игрока ---- */
+.ov{position:fixed;inset:0;background:rgba(5,12,22,.55);z-index:50;display:none;align-items:flex-end;justify-content:center;padding:env(safe-area-inset-top,0px) 0 0}
+.ov.on{display:flex}
+.card{background:var(--ice);color:var(--ink);width:100%;max-width:720px;max-height:92%;overflow:auto;border-radius:18px 18px 0 0;padding:16px 16px calc(24px + env(safe-area-inset-bottom,0px));box-shadow:0 -8px 40px rgba(0,0,0,.3)}
+@media (min-width:860px){.ov{align-items:center}.card{border-radius:18px;max-height:90vh}}
+.card .hd{display:flex;align-items:center;gap:12px}
+.card .hd .lg{width:52px;height:52px;margin:0}
+.card .hd h2{margin:0;font-size:22px;font-weight:800;color:var(--ink);letter-spacing:-.01em}
+.card .hd .meta{color:var(--ink2);font-size:14px;margin-top:2px}
+.card .x{margin-left:auto;border:none;background:var(--bg);color:var(--ink);width:36px;height:36px;border-radius:50%;font-size:20px;cursor:pointer}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(90px,1fr));gap:8px;margin:14px 0}
+.stats div{background:var(--bg);border-radius:10px;padding:8px 10px}
+.stats b{display:block;font-size:22px;font-weight:800;letter-spacing:-.02em}
+.stats span{font-size:12px;color:var(--ink2)}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:999px;overflow:hidden;margin:4px 0 10px}
+.seg button{border:none;background:transparent;color:var(--ink);font:inherit;font-weight:600;font-size:14px;padding:7px 14px;cursor:pointer}
+.seg button[aria-pressed="true"]{background:var(--ink);color:var(--bg)}
+.heat{display:block;width:100%;height:auto;border-radius:10px}
+.heat .ice{fill:#f6f9fc;stroke:#b9c7d6;stroke-width:1.5}
+.heat .ln{stroke:#c53a4a;stroke-width:1.2;fill:none}.heat .bl{stroke:#2b5fd3;stroke-width:1.6;fill:none}
+.heat .cr{stroke:#c53a4a;stroke-width:1;fill:none;opacity:.6}.heat .net{fill:#d6e0ec;stroke:#8a9bb0}
+.heat .lbl{font:600 7px "Inter Tight",sans-serif;fill:#4a5a6d;text-anchor:middle}
+.legend{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:13px;color:var(--ink2);margin:8px 0 4px}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:5px;vertical-align:middle}
+.kino-bar{display:flex;align-items:center;gap:10px;margin:0 0 8px}
+.kino-bar .pp{width:44px;height:44px;border-radius:50%;border:none;background:var(--ink);color:var(--bg);display:flex;align-items:center;justify-content:center;cursor:pointer;flex:0 0 auto}
+.kino-bar .clk{font-weight:800;font-size:18px;letter-spacing:-.01em;line-height:1.1}
+.kino-bar .clk small{display:block;font-size:12px;font-weight:600;color:var(--ink2)}
+.kino-bar .sc{margin-left:auto;font-weight:800;font-size:22px;color:var(--red);font-variant-numeric:tabular-nums}
+.prog{height:6px;border-radius:3px;background:var(--line);position:relative;margin-top:8px}
+.prog .fill{position:absolute;left:0;top:0;height:6px;border-radius:3px;background:var(--ink);width:0;transition:width .3s}
+.prog .tick{position:absolute;top:-3px;width:2px;height:12px;background:var(--ink2)}
+.prog-l{display:flex;justify-content:space-between;font-size:11px;color:var(--ink2);margin-top:3px}
+.heat .ev{opacity:0;transition:opacity .25s}.heat .ev.on{opacity:1}
+.heat .nm{font:700 7px "Inter Tight",sans-serif;fill:#0f2238;text-anchor:middle;paint-order:stroke;stroke:#ffffff;stroke-width:2.5px}
+.heat .nm.red{fill:#c8102e}.heat .nm.yel{fill:#8a6400}
+.heat .arr{stroke:#8a6400;stroke-width:1.3;stroke-dasharray:3 2;fill:none}
+.evs{margin:12px 0 0;padding:0;list-style:none;font-size:14px}
+.evs li.future{color:var(--ink2);opacity:.55}.evs li.now{background:var(--red-soft)}
+.evs li{display:grid;grid-template-columns:72px 1fr;gap:10px;padding:6px 0;border-bottom:1px solid var(--line)}
+.evs li .tm{color:var(--ink2);font-variant-numeric:tabular-nums}
+.evs li.goal .what{color:var(--red);font-weight:700}
+.empty{color:var(--ink2);font-size:14px;padding:12px 0}
 </style>
 </head>
 <body>
@@ -177,231 +245,213 @@ footer a{color:var(--ink2)}
 </header>
 
 <nav role="tablist" id="tabs">
-  <button role="tab" aria-selected="true" data-t="moments">Голы и моменты</button>
+  <button role="tab" aria-selected="true" data-t="night">Ночью</button>
   <button role="tab" aria-selected="false" data-t="roster">Все наши</button>
-  <button role="tab" aria-selected="false" data-t="players">Ночью на льду</button>
   <button role="tab" aria-selected="false" data-t="games">Все матчи</button>
   <button role="tab" aria-selected="false" data-t="tonight">Сегодня ночью</button>
 </nav>
 
-<section id="moments" class="on"></section>
+<section id="night" class="on"></section>
 <section id="roster"></section>
-<section id="players"></section>
 <section id="games"></section>
 <section id="tonight"></section>
 
 <footer id="foot"></footer>
 </div>
 
+<div class="ov" id="ov" role="dialog" aria-modal="true"><div class="card" id="card"></div></div>
+
 <script>
-// ===== ДАННЫЕ (обновляются каждое утро) =====
 /*__DATA__*/
 
-// ===== СХЕМА ГОЛА (площадка 400×170, атака слева направо, ворота справа) =====
-let rinkN = 0;
-function rink(g){
-  const id = 'rk' + (++rinkN);
-  const net = {x:372, y:85};
-  const from = g.pass || g.start || null;
-  const path1 = from ? `M${from.x},${from.y} L${g.shot.x},${g.shot.y}` : '';
-  const path2 = `M${g.shot.x+36},${g.shot.y} L${net.x-6},${net.y}`;
-  const d1 = from ? (g.start ? 1.4 : 0.7) : 0;
-  const skFrom = g.start ? g.start : {x: Math.max(60, g.shot.x - 90), y: 85 + (g.shot.y - 85) * 0.4};
-  const skPath = `M${skFrom.x},${skFrom.y} L${g.shot.x},${g.shot.y}`;
-  const num = String(g.shot.num || g.shot.n || '');
-  const pl = (p,cls,label) => `<circle class="pl ${cls}" cx="${p.x}" cy="${p.y}" r="9"/><text class="nm" x="${p.x}" y="${p.y}">${esc(p.n)}</text>${label?`<text class="lbl" x="${p.x}" y="${p.y+17}">${esc(label)}</text>`:''}`;
-  return `
-  <p class="rink-cap"><b>${esc(g.t)}.</b> ${esc(g.via)}</p>
-  <svg class="rink" id="${id}" viewBox="0 0 400 170" role="img" aria-label="${esc(g.t)}" onclick="playRink('${id}')">
-    <rect class="ice" x="2" y="2" width="396" height="166" rx="28"/>
-    <line class="ln" x1="200" y1="2" x2="200" y2="168"/>
-    <line class="bl" x1="125" y1="2" x2="125" y2="168"/><line class="bl" x1="275" y1="2" x2="275" y2="168"/>
-    <line class="cr" x1="28" y1="2" x2="28" y2="168"/><line class="cr" x1="372" y1="2" x2="372" y2="168"/>
-    <circle class="cr" cx="200" cy="85" r="24"/>
-    <circle class="cr" cx="330" cy="47" r="22"/><circle class="cr" cx="330" cy="123" r="22"/>
-    <circle class="cr" cx="70" cy="47" r="22"/><circle class="cr" cx="70" cy="123" r="22"/>
-    <path class="cr" d="M372,70 a18,18 0 0 0 0,30" fill="#dbe7f5"/>
-    <rect class="net" x="372" y="78" width="7" height="14"/>
-    <rect class="net" x="21" y="78" width="7" height="14"/>
-    ${from ? `<path class="trace" d="${path1}"/>` : ''}
-    <path class="trace" d="${path2}"/>
-    ${g.empty ? `<text class="lbl" x="372" y="68">пустые ворота</text>` : `<g transform="translate(362,98)"><g class="goalie">
-        <!-- щитки -->
-        <rect x="-9" y="-8" width="6" height="14" rx="2" fill="#f2f4f7" stroke="#8a9bb0" stroke-width="1"/>
-        <rect x="3" y="-8" width="6" height="14" rx="2" fill="#f2f4f7" stroke="#8a9bb0" stroke-width="1"/>
-        <!-- корпус -->
-        <path d="M-8,-9 L-6,-22 L6,-22 L8,-9 z" fill="#6b7a8c"/>
-        <!-- блин и ловушка -->
-        <rect x="-15" y="-19" width="6" height="8" rx="1.5" fill="#f2f4f7" stroke="#8a9bb0"/>
-        <circle cx="12" cy="-16" r="3.4" fill="#f2f4f7" stroke="#8a9bb0"/>
-        <!-- маска -->
-        <circle cx="0" cy="-26" r="4.2" fill="#ffffff" stroke="#0f2238" stroke-width="1.1"/>
-        <path d="M-2,-27 l4,0 M-2,-25 l4,0" stroke="#0f2238" stroke-width=".8"/>
-      </g></g>`}
-    <text class="goal-flash" x="340" y="${net.y < 60 ? 150 : 24}">ГОЛ!<animate attributeName="opacity" values="0;1;1;0" keyTimes="0;0.1;0.7;1" dur="1.8s" begin="${id}b.end"/></text>
-    ${g.pass ? pl(g.pass,'a','пас') : ''}
-    ${g.start ? pl(g.start,'s','перехват') : ''}
-    <circle cx="${g.shot.x}" cy="${g.shot.y}" r="3" fill="#c53a4a" opacity=".35"/>
-    <g class="skater">
-      <animateMotion id="${id}s" dur="${g.start ? 1.4 : 0.9}s" begin="indefinite" fill="freeze" path="${skPath}" calcMode="spline" keySplines="0.3 0 0.7 1"/>
-        <!-- конёк задний -->
-        <path d="M-14,2 l9,-1 l1,2 l-10,0 z" fill="#0f2238"/>
-        <!-- нога задняя -->
-        <path d="M-12,1 L-4,-11 L2,-9 L-7,2 z" fill="#1d2f4a"/>
-        <!-- конёк передний -->
-        <path d="M6,2 l9,-1 l1,2 l-10,0 z" fill="#0f2238"/>
-        <!-- нога передняя -->
-        <path d="M7,1 L5,-11 L11,-12 L13,2 z" fill="#243a5c"/>
-        <!-- свитер / корпус, наклон вперёд -->
-        <path d="M-6,-10 L-1,-26 L12,-24 L14,-9 L4,-7 z" fill="#c8102e"/>
-        <path d="M-1,-26 L12,-24 L11,-20 L-1,-21 z" fill="#ffffff" opacity=".85"/>
-        <!-- рука + перчатка -->
-        <path d="M10,-21 L19,-13 L23,-14 L15,-24 z" fill="#c8102e"/>
-        <circle cx="22" cy="-13" r="2.6" fill="#0f2238"/>
-        <!-- шлем -->
-        <circle cx="14" cy="-30" r="4.6" fill="#ffffff" stroke="#0f2238" stroke-width="1.1"/>
-        <path d="M15,-28 a4.6,4.6 0 0 1 4,-1" fill="none" stroke="#0f2238" stroke-width="1"/>
-        <!-- клюшка -->
-        <g class="stick">
-          <animateTransform attributeName="transform" type="rotate" values="0 22 -13;-28 22 -13;10 22 -13;0 22 -13" keyTimes="0;0.4;0.75;1" dur="0.45s" begin="${id}s.end" fill="freeze"/>
-          <path d="M22,-13 L31,-1" stroke="#8a5a2b" stroke-width="2" stroke-linecap="round"/>
-          <path d="M31,-1 L38,0" stroke="#3a2a1a" stroke-width="2.4" stroke-linecap="round"/>
-        </g>
-        <!-- номер -->
-        <text x="6" y="-14" font-family="sans-serif" font-size="${num.length>2?5.2:7}" font-weight="700" fill="#fff" text-anchor="middle">${esc(num)}</text>
-      </g>
-    <circle class="puck" r="3.2" cx="0" cy="0" opacity="0">
-      <set attributeName="opacity" to="1" begin="${id}b.begin" fill="freeze"/>
-      <animateMotion id="${id}b" dur="0.4s" begin="${id}s.end+0.3s" fill="freeze" path="${path2}" calcMode="spline" keySplines="0.2 0 0.6 1"/>
-    </circle>
-  </svg>`;
-}
-function playRink(id){
-  const sk = document.getElementById(id+'s');
-  if(sk){ sk.beginElement(); }
-}
-
-// ===== РЕНДЕР =====
-const LOGO = (DATA.logos||{});
-const lg = club => LOGO[club] ? `<img class="lg" src="${esc(LOGO[club])}" alt="" loading="lazy">` : '';
-const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const esc = s => String(s==null?'':s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const yt = q => "https://www.youtube.com/results?search_query=" + encodeURIComponent(q);
-const ya = q => "https://yandex.ru/video/search?text=" + encodeURIComponent(q);
+const LOGO = DATA.logos || {};
+const lg = club => LOGO[club] ? `<img class="lg" src="${esc(LOGO[club])}" alt="" loading="lazy">` : '';
+const P = DATA.players || {};
+const EVN = DATA.ev_names || {};
+const posName = {в:'вратарь', з:'защитник', н:'нападающий'};
+const nightLine = {};   // pid -> строка за ночь
+const seasonLine = {};  // pid -> строка за сезон
 
 document.getElementById('sub').textContent = DATA.night + " · обновлено " + DATA.updated;
-document.getElementById('totals').innerHTML = DATA.totals.map(([n,l]) => `<div><b>${esc(n)}</b>${esc(l)}</div>`).join('');
+document.getElementById('totals').innerHTML = (DATA.totals||[]).map(([n,l]) => `<div><b>${esc(n)}</b>${esc(l)}</div>`).join('');
 
-// плоский список голов для правой колонки
-const GOALS = [];
-DATA.moments.forEach(m => (m.goals||[]).forEach(g => GOALS.push({...g, who:g.who||m.who, club:g.club||m.club, score:m.score, res:m.res, yt:m.yt, ya:m.ya})));
-const OTHER = DATA.moments.filter(m => !m.goals);
-const PLAYERS = [];
-GOALS.forEach((g,i) => { let p = PLAYERS.find(x => x.who===g.who); if(!p){ p={key:PLAYERS.length, who:g.who, club:g.club, score:g.score, res:g.res, items:[], n:0, first:i}; PLAYERS.push(p);} p.items.push(i); p.n++; });
+// ---------- Ночью ----------
+const sk = (DATA.skaters||[]).slice();
+const gk = (DATA.goalies||[]).slice();
+sk.forEach(([n,c,p,sh,t,pid]) => nightLine[pid] = `${p}, броски ${sh}, ${t}`);
+gk.forEach(([n,c,sv,pct,pid]) => nightLine[pid] = `отразил ${sv} (${pct})`);
+const row = (pid, name, club, big, small, sub, hot) => `<li data-pid="${pid}">${lg(club)}<span class="nm ${hot?'pts':''}">${esc(name)}</span>
+  <span class="st">${esc(big)}<small>${esc(small)}</small></span><span class="sub">${esc(sub)}</span></li>`;
+document.getElementById('night').innerHTML = sk.length || gk.length ? `
+  <h2>Полевые игроки — ${sk.length}</h2>
+  <ul class="plist">${sk.map(([n,c,p,sh,t,pid]) => row(pid, n, c, p, 'г+п', `${c} · броски ${sh} · ${t}`, p!=='0+0')).join('')}</ul>
+  <h2>Вратари — ${gk.length}</h2>
+  <ul class="plist">${gk.map(([n,c,sv,pct,pid]) => row(pid, n, c, pct, sv, c, sv.split(' ')[0]===sv.split(' ')[2])).join('')}</ul>
+  <p class="note">Нажмите на игрока — откроется карточка с тепловой картой и всеми действиями за ночь.</p>`
+  : `<p class="empty">Этой ночью россияне не играли.</p>`;
 
-document.getElementById('moments').innerHTML = `
-  <div class="stage-grid">
-    <div class="stage" id="stage"></div>
-    <div>
-      <ul class="goal-list" id="goalList" role="listbox" aria-label="Голы россиян">
-        ${PLAYERS.map(p => `<li class="player" role="option" tabindex="0" data-p="${p.key}" data-i="${p.first}" aria-selected="false">
-          <span class="who">${lg(p.club)}${esc(p.who)}</span>
-          <span class="cnt">${p.n===1?'1 гол':p.n<5?p.n+' гола':p.n+' голов'}</span>
-          <span class="meta">${esc(p.club)} · ${esc(p.score)} ${esc(p.res)}</span></li>
-          ${p.n>1 ? p.items.map((i,k) => `<li class="sub" role="option" tabindex="0" data-p="${p.key}" data-i="${i}" aria-selected="false" hidden>
-            <span class="num">${k+1}</span><span>${esc(GOALS[i].t)}</span></li>`).join('') : ''}`).join('')}
-      </ul>
-      <p class="rink-hint">Нажмите на гол — слева проиграется схема. Схема показывает суть момента, не точные позиции.</p>
-    </div>
-  </div>
-  <h2>Ещё за ночь</h2>
-  ${OTHER.map(m => `
-  <article class="moment">
-    <div class="m-top"><span class="who">${lg(m.club)}${esc(m.who)}</span><span class="club">${esc(m.club)}</span>
-      <span class="badge ${m.badge[0]}">${esc(m.badge[1])}</span></div>
-    <p class="m-what">${esc(m.what)}</p>
-    <p class="m-score">${esc(m.score)} <b>${esc(m.res)}</b></p>
-    <div class="links">
-      <a class="yt" href="${yt(m.yt)}" target="_blank" rel="noopener">Смотреть на YouTube</a>
-      <a href="${ya(m.ya)}" target="_blank" rel="noopener">Видео в Яндексе</a>
-    </div>
-  </article>`).join('')}`;
-
-let stageTimer = null;
-function showGoal(i, scroll){
-  const g = GOALS[i]; if(!g) return;
-  const pkey = PLAYERS.find(p => p.items.includes(i)).key;
-  document.querySelectorAll('#goalList li').forEach(li => {
-    const mine = li.dataset.p == pkey;
-    if(li.classList.contains('sub')) li.hidden = !mine;
-    li.setAttribute('aria-selected', mine && (li.classList.contains('player') || li.dataset.i == i));
-  });
-  const st = document.getElementById('stage');
-  st.innerHTML = `
-    <div class="stage-head"><span class="who">${lg(g.club)}${esc(g.who)}</span><span class="club">${esc(g.club)}</span>
-      <span class="badge goal">${esc(g.score)} ${esc(g.res)}</span></div>
-    <div class="rink-wrap">${rink(g)}</div>
-    <div class="links">
-      <a class="yt" href="${yt(g.yt)}" target="_blank" rel="noopener">Смотреть на YouTube</a>
-      <a href="${ya(g.ya)}" target="_blank" rel="noopener">Видео в Яндексе</a>
-    </div>`;
-  const id = st.querySelector('.rink').id;
-  if(stageTimer) clearInterval(stageTimer);
-  setTimeout(() => playRink(id), 250);
-  stageTimer = setInterval(() => playRink(id), 4000);
-  if(scroll && window.innerWidth < 860) st.scrollIntoView({behavior:'smooth', block:'start'});
-  try{ localStorage.setItem('nhl-goal', String(i)); }catch(_){}
-}
-document.getElementById('goalList').addEventListener('click', e => { const li = e.target.closest('li'); if(li) showGoal(+li.dataset.i, true); });
-document.getElementById('goalList').addEventListener('keydown', e => { if(e.key==='Enter'||e.key===' '){ const li = e.target.closest('li'); if(li){ e.preventDefault(); showGoal(+li.dataset.i, true);} } });
-showGoal(0, false);
-
-// «Все наши» — состав по клубам + строка за ночь, если играл
-const NIGHT = {};
-DATA.skaters.forEach(([n,c,p,sh,t]) => NIGHT[n] = {line:`${p}, броски ${sh}, ${t}`, scored: !p.startsWith('0')});
-DATA.goalies.forEach(([n,c,sv,pct]) => NIGHT[n] = {line:`отразил ${sv} (${pct})`, scored:false});
-const posName = {в:'вратарь', з:'защитник', н:'нападающий'};
-const total = DATA.roster.reduce((a,[,ps]) => a+ps.length, 0);
+// ---------- Все наши ----------
+const total = (DATA.roster||[]).reduce((a,[,ps]) => a+ps.length, 0);
 document.getElementById('roster').innerHTML = `
-  <p class="note">${total} россиян в ${DATA.roster.length} клубах на старт сезона. Красным — кто набрал очки этой ночью; под именем — строка за ночь и за сезон.</p>
-  <div class="roster-grid">${DATA.roster.map(([club, ps]) => `
+  <p class="note">${total} россиян в ${(DATA.roster||[]).length} клубах. Красным — кто набрал очки этой ночью. Нажмите на игрока — карточка.</p>
+  <div class="roster-grid">${(DATA.roster||[]).map(([club, ps]) => `
   <div class="club"><h3><span class="cl">${lg(club)}${esc(club)}</span><span>${ps.length}</span></h3>
-    ${ps.map(([n,pos,st,season]) => { const ng = NIGHT[n]; return `
-    <div class="pr">
+    ${ps.map(([n,pos,st,season,pid,num]) => { seasonLine[pid] = season; const nl = nightLine[pid]; return `
+    <div class="pr" data-pid="${pid}">
       <span class="pos ${pos==='в'?'v':pos==='з'?'z':''}" title="${posName[pos]}">${pos.toUpperCase()}</span>
-      <span class="pn ${ng&&ng.scored?'scored':''}">${esc(n)}</span>
-      <a class="yl" href="${yt(n+' НХЛ 2026 голы моменты')}" target="_blank" rel="noopener">видео</a>
-      ${ng ? `<span class="last">Ночью: <b>${esc(ng.line)}</b></span>` : ''}
+      <span class="pn ${nl && !nl.startsWith('0+0') && !nl.startsWith('отразил') ? 'scored':''}">${esc(n)}${num?` <span style="color:var(--ink2);font-weight:500">#${esc(num)}</span>`:''}</span>
+      <a class="yl" href="${yt(n+' НХЛ голы моменты')}" target="_blank" rel="noopener">видео</a>
+      ${nl ? `<span class="last">Ночью: <b>${esc(nl)}</b></span>` : ''}
       ${season ? `<span class="last">Сезон: <b>${esc(season)}</b></span>` : ''}
       ${st ? `<span class="st">${esc(st)}</span>` : ''}
     </div>`; }).join('')}
   </div>`).join('')}</div>`;
 
-document.getElementById('players').innerHTML = `
-  <p class="note">Все россияне, выходившие на лёд этой ночью.</p>
-  <h2>Полевые игроки — ${DATA.skaters.length}</h2>
-  <div class="scroll"><table class="tbl"><thead><tr><th>Игрок</th><th>Клуб</th><th class="r">Г+П</th><th class="r">Броски</th><th class="r">Время</th></tr></thead><tbody>
-  ${DATA.skaters.map(([n,c,p,s,t]) => `<tr class="${p!=='0+0'?'pts':''}"><td class="n">${esc(n)}</td><td class="c">${esc(c)}</td><td class="r">${esc(p)}</td><td class="r">${s}</td><td class="r">${esc(t)}</td></tr>`).join('')}
-  </tbody></table></div>
-  <h2>Вратари — ${DATA.goalies.length}</h2>
-  <div class="scroll"><table class="tbl"><thead><tr><th>Вратарь</th><th>Клуб</th><th class="r">Отражено</th><th class="r">% сейвов</th></tr></thead><tbody>
-  ${DATA.goalies.map(([n,c,s,p]) => `<tr><td class="n">${esc(n)}</td><td class="c">${esc(c)}</td><td class="r">${esc(s)}</td><td class="r">${esc(p)}</td></tr>`).join('')}
-  </tbody></table></div>`;
-
-document.getElementById('games').innerHTML = DATA.games.map(([h,a,hs,as,x,ru]) => `
+// ---------- Матчи ----------
+document.getElementById('games').innerHTML = (DATA.games||[]).map(([h,a,hs,as,x,ru]) => `
   <div class="game">
     <div class="teams"><span>${lg(h)}${esc(h)}</span><span>${lg(a)}${esc(a)}</span></div>
     <div class="score">${hs}:${as}${x?`<small>${esc(x)}</small>`:''}</div>
     <div class="ru"><b>Наши:</b> ${esc(ru)}</div>
-  </div>`).join('');
-
-document.getElementById('tonight').innerHTML = `<p class="note">Время екатеринбургское.</p>` + DATA.tonight.map(([h,a,t,ru]) => `
+  </div>`).join('') || `<p class="empty">Матчей не было.</p>`;
+document.getElementById('tonight').innerHTML = `<p class="note">Время екатеринбургское.</p>` + ((DATA.tonight||[]).map(([h,a,t,ru]) => `
   <div class="game">
     <div class="teams"><span>${lg(h)}${esc(h)}</span><span>${lg(a)}${esc(a)}</span></div>
     <div class="time">${esc(t)}</div>
     <div class="ru">${esc(ru)}</div>
-  </div>`).join('');
+  </div>`).join('') || `<p class="empty">Сегодня матчей нет.</p>`);
+document.getElementById('foot').innerHTML = `Данные — ${esc((DATA.source||{}).title||'')}. Координаты действий — из протоколов лиги; трекинга движения в открытых данных нет, карта строится по броскам, хитам, блокам, вбрасываниям, потерям и отборам.`;
 
-document.getElementById('foot').innerHTML = `Статистика россиян — по сводке <a href="${esc(DATA.source.url)}" target="_blank" rel="noopener">${esc(DATA.source.title)}</a>, результаты матчей — по данным лиги.`;
+// ---------- тепловая карта ----------
+const KIND = {
+  goal:['#c8102e','гол'], 'shot-on-goal':['#e8552f','бросок в створ'], 'missed-shot':['#f0a24a','бросок мимо'], 'shot-blocked':['#f0a24a','бросок заблокирован'],
+  assist:['#8a3fd1','передача'], hit:['#1d4ed8','хит'], 'hit-taken':['#7aa2ff','принял хит'], blocked:['#0f8f6a','блок'],
+  'fo-win':['#6b7a8c','вбрасывание +'], 'fo-loss':['#b0bac6','вбрасывание −'], giveaway:['#9c6b00','потеря'], takeaway:['#2a9d3a','отбор'],
+  penalty:['#000','удаление'], 'faced-save':['#6b7a8c','сейв'], 'faced-goal':['#c8102e','пропущен гол']
+};
+const toPx = ([x,y]) => [Math.max(8, Math.min(392, 200 + x*1.9)), Math.max(8, Math.min(162, 85 - y*1.85))];
+function heat(evs, goalie){
+  const pts = evs.filter(e => e.xy);
+  const hot = pts.filter(e => goalie ? e.t.startsWith('faced') : !e.t.startsWith('faced'));
+  const blobs = hot.map(e => { const [px,py] = toPx(e.xy); const w = e.t==='goal'||e.t==='faced-goal' ? 14 : 10; return `<circle cx="${px}" cy="${py}" r="${w}" fill="#c8102e"/>`; }).join('');
+  const dots = hot.map(e => { const [px,py] = toPx(e.xy); const k = KIND[e.t]||['#999',e.t]; const r = e.t==='goal'||e.t==='faced-goal' ? 4.2 : 2.8;
+    return `<circle cx="${px}" cy="${py}" r="${r}" fill="${k[0]}" stroke="#fff" stroke-width="1"><title>${esc(k[1])}, ${e.p}-й период ${esc(e.m)}</title></circle>`; }).join('');
+  const used = {}; hot.forEach(e => used[e.t] = 1);
+  return `<svg class="heat" viewBox="0 0 400 170" role="img" aria-label="Карта действий">
+    <defs><filter id="bl" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="9"/></filter></defs>
+    <rect class="ice" x="2" y="2" width="396" height="166" rx="28"/>
+    <line class="ln" x1="200" y1="2" x2="200" y2="168"/><line class="bl" x1="125" y1="2" x2="125" y2="168"/><line class="bl" x1="275" y1="2" x2="275" y2="168"/>
+    <line class="cr" x1="28" y1="2" x2="28" y2="168"/><line class="cr" x1="372" y1="2" x2="372" y2="168"/>
+    <circle class="cr" cx="200" cy="85" r="24"/><circle class="cr" cx="330" cy="47" r="22"/><circle class="cr" cx="330" cy="123" r="22"/><circle class="cr" cx="70" cy="47" r="22"/><circle class="cr" cx="70" cy="123" r="22"/>
+    <rect class="net" x="372" y="78" width="7" height="14"/><rect class="net" x="21" y="78" width="7" height="14"/>
+    <text class="lbl" x="70" y="160">${goalie?'его ворота':'своя зона'}</text><text class="lbl" x="330" y="160">${goalie?'':'атакует →'}</text>
+    <g filter="url(#bl)" opacity="${goalie?0.28:0.33}">${blobs}</g>${dots}
+  </svg>
+  <div class="legend">${Object.keys(KIND).filter(k => used[k]).map(k => `<span><i style="background:${KIND[k][0]}"></i>${KIND[k][1]}</span>`).join('') || '<span>действий с координатами нет</span>'}</div>`;
+}
+const pstr = p => p<=3 ? p+'-й период' : 'ОТ';
+const secs = e => (Math.min(e.p,4)-1)*1200 + (e.m||'0:0').split(':').reduce((a,b)=>a*60+(+b),0);
+const RINK = `<rect class="ice" x="2" y="2" width="396" height="166" rx="28"/>
+    <line class="ln" x1="200" y1="2" x2="200" y2="168"/><line class="bl" x1="125" y1="2" x2="125" y2="168"/><line class="bl" x1="275" y1="2" x2="275" y2="168"/>
+    <line class="cr" x1="28" y1="2" x2="28" y2="168"/><line class="cr" x1="372" y1="2" x2="372" y2="168"/>
+    <circle class="cr" cx="200" cy="85" r="24"/><circle class="cr" cx="330" cy="47" r="22"/><circle class="cr" cx="330" cy="123" r="22"/><circle class="cr" cx="70" cy="47" r="22"/><circle class="cr" cx="70" cy="123" r="22"/>
+    <rect class="net" x="372" y="78" width="7" height="14"/><rect class="net" x="21" y="78" width="7" height="14"/>`;
+// сцена гола: забивший красным, пасующие жёлтым, фамилии, стрелки
+function goalScene(e, goalie){
+  const [px,py] = toPx(e.xy); const dir = py < 85 ? 1 : -1; const left = goalie ? 1 : -1;  // у вратаря атака идёт слева
+  const sc = {x:px, y:py, n:e.by||''};
+  const a = (e.as||[]).map((n,i) => ({x: Math.max(40, Math.min(360, px + left*(48 + i*42))), y: Math.max(20, Math.min(150, py + dir*(20 - i*10))), n}));
+  const chain = [...a].reverse().concat([sc]);
+  const arrows = chain.slice(0,-1).map((p,i) => `<line class="arr" x1="${p.x}" y1="${p.y}" x2="${chain[i+1].x}" y2="${chain[i+1].y}"/>`).join('');
+  return arrows + a.map(p => `<circle cx="${p.x}" cy="${p.y}" r="4" fill="#f5c400" stroke="#fff" stroke-width="1"/><text class="nm yel" x="${p.x}" y="${p.y-7}">${esc(p.n)}</text>`).join('')
+    + `<circle cx="${sc.x}" cy="${sc.y}" r="5" fill="#c8102e" stroke="#fff" stroke-width="1.2"/><text class="nm red" x="${sc.x}" y="${sc.y-8}">${esc(sc.n)}${e.sc?` · ${esc(e.sc)}`:''}</text>`;
+}
+function kino(evs, goalie){
+  const list = evs.filter(e => e.xy && (goalie ? e.t.startsWith('faced') : !e.t.startsWith('faced'))).sort((a,b) => secs(a)-secs(b));
+  const items = list.map((e,i) => {
+    const [px,py] = toPx(e.xy); const k = KIND[e.t]||['#999',e.t];
+    const isGoal = e.t==='goal' || e.t==='faced-goal' || e.t==='assist';
+    return `<g class="ev" data-i="${i}">${isGoal ? goalScene(e, goalie) : `<circle cx="${px}" cy="${py}" r="2.8" fill="${k[0]}" stroke="#fff" stroke-width="1"><title>${esc(k[1])}, ${pstr(e.p)} ${esc(e.m)}</title></circle>`}</g>`;
+  }).join('');
+  const used = {}; list.forEach(e => used[e.t] = 1);
+  return `<div class="kino-bar"><button class="pp" type="button" aria-label="Пауза" data-k="pp"><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><rect x="2" y="1" width="3.5" height="12" fill="currentColor"/><rect x="8.5" y="1" width="3.5" height="12" fill="currentColor"/></svg></button>
+      <div class="clk"><span data-k="clock">—</span><small>${list.length} действий за матч</small></div><div class="sc" data-k="score"></div></div>
+    <svg class="heat" viewBox="0 0 400 170" role="img" aria-label="Карта действий по ходу матча">${RINK}
+      <text class="lbl" x="70" y="160">${goalie?'его ворота':'своя зона'}</text><text class="lbl" x="330" y="160">${goalie?'':'атакует →'}</text>${items}</svg>
+    <div class="prog"><div class="fill" data-k="fill"></div><div class="tick" style="left:33.3%"></div><div class="tick" style="left:66.6%"></div></div>
+    <div class="prog-l"><span>1-й</span><span>2-й</span><span>3-й</span><span></span></div>
+    <div class="legend">${Object.keys(KIND).filter(k => used[k] && !['goal','assist','faced-goal'].includes(k)).map(k => `<span><i style="background:${KIND[k][0]}"></i>${KIND[k][1]}</span>`).join('')}<span><i style="background:#c8102e"></i>забил</span><span><i style="background:#f5c400"></i>отдал пас</span></div>
+    <p class="rink-hint">Точки бросков и действий — из протокола лиги; где стояли пасующие, лига не фиксирует, их место условно.</p>`;
+}
+let kinoTimer = null;
+function runKino(card, evs, goalie){
+  const list = evs.filter(e => e.xy && (goalie ? e.t.startsWith('faced') : !e.t.startsWith('faced'))).sort((a,b) => secs(a)-secs(b));
+  const gs = [...card.querySelectorAll('.heat .ev')], rows = [...card.querySelectorAll('.evs li')];
+  const clock = card.querySelector('[data-k="clock"]'), score = card.querySelector('[data-k="score"]'), fill = card.querySelector('[data-k="fill"]'), pp = card.querySelector('[data-k="pp"]');
+  let i = 0, playing = true;
+  const icon = () => pp.innerHTML = playing ? '<svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><rect x="2" y="1" width="3.5" height="12" fill="currentColor"/><rect x="8.5" y="1" width="3.5" height="12" fill="currentColor"/></svg>' : '<svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M3 1l10 6-10 6z" fill="currentColor"/></svg>';
+  const step = () => {
+    if(!playing) return;
+    if(i >= list.length){ playing = false; icon(); clock.textContent = 'матч окончен'; return; }
+    const e = list[i]; gs[i] && gs[i].classList.add('on');
+    rows.forEach(r => { r.classList.remove('now'); if(r.dataset.s !== undefined) r.classList.toggle('future', +r.dataset.s > secs(e)); });
+    const row = rows.find(r => +r.dataset.s === secs(e) && r.dataset.t === e.t); if(row) row.classList.add('now');
+    clock.textContent = `${pstr(e.p)} · ${e.m}`; fill.style.width = Math.min(100, secs(e)/3600*100) + '%';
+    if(e.sc) score.textContent = e.sc;
+    const isGoal = e.t==='goal' || e.t==='faced-goal' || e.t==='assist';
+    i++; kinoTimer = setTimeout(step, isGoal ? 2200 : 650);
+  };
+  pp.onclick = () => { playing = !playing; icon(); if(playing){ if(i >= list.length){ i = 0; gs.forEach(g => g.classList.remove('on')); score.textContent=''; } step(); } else clearTimeout(kinoTimer); };
+  icon(); clearTimeout(kinoTimer); kinoTimer = setTimeout(step, 500);
+}
+function evList(evs){
+  const list = evs.slice().sort((a,b) => a.p-b.p || a.m.localeCompare(b.m));
+  if(!list.length) return `<p class="empty">Действий не зафиксировано.</p>`;
+  return `<ul class="evs">${list.map(e => `<li class="${e.t}" data-s="${secs(e)}" data-t="${e.t}"><span class="tm">${pstr(e.p)} ${esc(e.m)}</span><span class="what">${esc(EVN[e.t]||e.t)}${e.sc?` — счёт ${esc(e.sc)}`:''}${e.min?` (${e.min} мин)`:''}</span></li>`).join('')}</ul>`;
+}
+function statsFor(evs, goalie){
+  const c = t => evs.filter(e => e.t===t).length;
+  if(goalie){ const sv=c('faced-save'), ga=c('faced-goal'); return [[sv+ga,'бросков'],[sv,'сейвов'],[ga,'пропущено'],[sv+ga?((sv/(sv+ga))*100).toFixed(1)+'%':'—','% сейвов']]; }
+  return [[c('goal'),'голов'],[c('assist'),'передач'],[c('shot-on-goal')+c('goal'),'бросков в створ'],[c('hit'),'хитов'],[c('blocked'),'блоков'],[c('fo-win')+c('fo-loss')?`${c('fo-win')}/${c('fo-win')+c('fo-loss')}`:'—','вбрасывания']];
+}
+
+let SEASON = null, seasonLoading = null;
+function loadSeason(){
+  if(SEASON) return Promise.resolve(SEASON);
+  if(!seasonLoading) seasonLoading = fetch('events.json', {cache:'no-cache'}).then(r => r.json()).then(j => SEASON = j).catch(() => SEASON = {games:{},players:{}});
+  return seasonLoading;
+}
+function openCard(pid, mode){
+  const p = P[pid]; if(!p) return;
+  mode = mode || ((DATA.events||{})[pid] ? 'night' : 'season');
+  const goalie = p.pos==='в';
+  const ov = document.getElementById('ov'); const card = document.getElementById('card');
+  const render = evs => {
+    const st = statsFor(evs, goalie);
+    const gamesN = new Set(evs.map(e => e.gid)).size;
+    card.innerHTML = `
+      <div class="hd">${lg(p.club)}<div><h2>${esc(p.name)}${p.num?` <span style="color:var(--ink2);font-weight:600">#${esc(p.num)}</span>`:''}</h2>
+        <div class="meta">${esc(p.club)} · ${posName[p.pos]||''}${seasonLine[pid]?` · сезон: ${esc(seasonLine[pid])}`:''}</div></div>
+        <button class="x" aria-label="Закрыть">×</button></div>
+      <div class="seg"><button aria-pressed="${mode==='night'}" data-m="night">Эта ночь</button><button aria-pressed="${mode==='season'}" data-m="season">Сезон${gamesN&&mode==='season'?` · ${gamesN} м.`:''}</button></div>
+      ${nightLine[pid] && mode==='night' ? `<p class="note" style="margin:0 0 8px">Ночью: <b style="color:var(--ink)">${esc(nightLine[pid])}</b></p>` : ''}
+      <div class="stats">${st.map(([n,l]) => `<div><b>${esc(n)}</b><span>${esc(l)}</span></div>`).join('')}</div>
+      ${mode==='night' ? kino(evs, goalie) : heat(evs, goalie)}
+      ${mode==='night' ? `<h2>Действия за ночь</h2>${evList(evs)}` : `<p class="note">Карта накапливается с каждым матчем сезона.</p>`}`;
+    card.querySelector('.x').onclick = closeCard;
+    if(mode==='night' && card.querySelector('[data-k="pp"]')) runKino(card, evs, goalie);
+    card.querySelectorAll('.seg button').forEach(b => b.onclick = () => openCard(pid, b.dataset.m));
+  };
+  ov.classList.add('on'); document.body.style.overflow = 'hidden';
+  if(mode==='night'){ render((DATA.events||{})[pid] || []); }
+  else { card.innerHTML = `<p class="empty">Загружаю сезон…</p>`; loadSeason().then(j => render((j.players||{})[pid] || [])); }
+}
+function closeCard(){ clearTimeout(kinoTimer); document.getElementById('ov').classList.remove('on'); document.body.style.overflow = ''; }
+document.getElementById('ov').addEventListener('click', e => { if(e.target.id==='ov') closeCard(); });
+document.addEventListener('keydown', e => { if(e.key==='Escape') closeCard(); });
+document.addEventListener('click', e => { const el = e.target.closest('[data-pid]'); if(el && !e.target.closest('a')) openCard(el.dataset.pid); });
 
 // вкладки
 const tabs = document.getElementById('tabs');

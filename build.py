@@ -180,6 +180,75 @@ def load_logos():
     return out
 
 
+EV = {"goal":"гол","assist":"передача","shot-on-goal":"бросок в створ","missed-shot":"бросок мимо",
+      "blocked":"блок броска","shot-blocked":"бросок заблокирован","hit":"хит","hit-taken":"принял хит",
+      "fo-win":"вбрасывание выиграл","fo-loss":"вбрасывание проиграл","giveaway":"потеря","takeaway":"отбор",
+      "penalty":"удаление","faced-save":"бросок по воротам — сейв","faced-goal":"бросок по воротам — гол"}
+
+
+def norm_xy(play, home_id, team_id):
+    d = play.get("details", {})
+    x, y = d.get("xCoord"), d.get("yCoord")
+    if x is None or y is None:
+        return None
+    if not attacking_right(play, home_id, team_id):
+        x, y = -x, -y
+    return [round(float(x), 1), round(float(y), 1)]
+
+
+def collect_events(game, rus):
+    """все зафиксированные действия россиян в матче, координаты нормированы: своя атака вправо"""
+    gid = game["id"]; home_id = game["homeTeam"]["id"]; away_id = game["awayTeam"]["id"]
+    pbp = get(f"/gamecenter/{gid}/play-by-play", {}) or {}
+    out = []
+    names = {}
+    for rs in pbp.get("rosterSpots", []):
+        pid_ = rs.get("playerId")
+        if pid_ in rus:
+            names[pid_] = rus[pid_]["name"].split()[-1]
+        else:
+            ln = rs.get("lastName", {}); names[pid_] = ln.get("default", "") if isinstance(ln, dict) else str(ln or "")
+    def who(pid_): return names.get(pid_, "")
+    def add(pid, kind, play, team_id, extra=None):
+        if pid in rus:
+            xy = norm_xy(play, home_id, team_id)
+            e = {"pid": pid, "t": kind, "p": play.get("periodDescriptor", {}).get("number", 0),
+                 "m": play.get("timeInPeriod", ""), "xy": xy, "gid": gid}
+            if extra: e.update(extra)
+            out.append(e)
+    for pl in pbp.get("plays", []):
+        k = pl.get("typeDescKey"); d = pl.get("details", {})
+        own = d.get("eventOwnerTeamId"); opp = away_id if own == home_id else home_id
+        if k == "goal":
+            cast = {"sc": f"{d.get('homeScore','')}:{d.get('awayScore','')}", "by": who(d.get("scoringPlayerId")),
+                    "as": [who(a) for a in (d.get("assist1PlayerId"), d.get("assist2PlayerId")) if a]}
+            add(d.get("scoringPlayerId"), "goal", pl, own, cast)
+            add(d.get("assist1PlayerId"), "assist", pl, own, cast); add(d.get("assist2PlayerId"), "assist", pl, own, cast)
+            add(d.get("goalieInNetId"), "faced-goal", pl, opp, cast)
+        elif k == "shot-on-goal":
+            add(d.get("shootingPlayerId"), "shot-on-goal", pl, own); add(d.get("goalieInNetId"), "faced-save", pl, opp)
+        elif k == "missed-shot":
+            add(d.get("shootingPlayerId"), "missed-shot", pl, own)
+        elif k == "blocked-shot":
+            add(d.get("shootingPlayerId"), "shot-blocked", pl, own); add(d.get("blockingPlayerId"), "blocked", pl, opp)
+        elif k == "hit":
+            add(d.get("hittingPlayerId"), "hit", pl, own); add(d.get("hitteePlayerId"), "hit-taken", pl, opp)
+        elif k == "faceoff":
+            add(d.get("winningPlayerId"), "fo-win", pl, own); add(d.get("losingPlayerId"), "fo-loss", pl, opp)
+        elif k in ("giveaway", "takeaway"):
+            add(d.get("playerId"), k, pl, own)
+        elif k == "penalty":
+            add(d.get("committedByPlayerId"), "penalty", pl, own, {"min": d.get("duration")})
+    return out
+
+
+def load_history():
+    try:
+        return json.load(open("events.json", encoding="utf-8"))
+    except Exception:
+        return {"games": {}, "players": {}}
+
+
 def build():
     rus = load_russians()
     logos = load_logos()
@@ -205,7 +274,7 @@ def build():
                     if p.get("playerId") in rus:
                         nm = rus[p["playerId"]]["name"]
                         gl, a = p.get("goals",0), p.get("assists",0)
-                        skaters.append([nm, club, f"{gl}+{a}", p.get("sog",0), toi_str(p.get("toi"))])
+                        skaters.append([nm, club, f"{gl}+{a}", p.get("sog",0), toi_str(p.get("toi")), p["playerId"]])
                         per_player[p["playerId"]] = {"g":gl,"a":a,"club":club,"home":home,"away":away,"hs":hs,"as":as_,"suffix":suffix,"gid":gid}
                         ru_goals_total += gl
                         tag = f"{nm.split()[-1]} — {gl} гол" + ("а" if 1<gl<5 else "") if gl else (f"{nm.split()[-1]} — пас" if a else nm.split()[-1])
@@ -216,7 +285,7 @@ def build():
                     sa = p.get("shotsAgainst") or 0; ga = p.get("goalsAgainst") or 0
                     sv = sa - ga
                     pct = f"{(sv/sa*100):.1f}%" if sa else "—"
-                    goalies.append([nm, club, f"{sv} из {sa}", pct])
+                    goalies.append([nm, club, f"{sv} из {sa}", pct, p["playerId"]])
                     per_player[p["playerId"]] = {"goalie":True,"sv":sv,"sa":sa,"pct":pct,"club":club,"home":home,"away":away,"hs":hs,"as":as_,"suffix":suffix,"gid":gid}
                     ru_in_game.append(f"{nm.split()[-1]} {sv}/{sa}")
         results.append([CLUBS.get(home["abbrev"],home["abbrev"]), CLUBS.get(away["abbrev"],away["abbrev"]), hs, as_, suffix, "; ".join(ru_in_game) or "—"])
@@ -238,6 +307,28 @@ def build():
                     "yt": f"{home['abbrev']} {away['abbrev']} highlights {date.isoformat()} {rus[pid]['name']}",
                     "ya": f"{hn} {an} обзор матча {rus[pid]['name']} голы",
                     "goals": [{k:v for k,v in it.items() if k!="pid"} for it in items]})
+
+    # действия россиян: за ночь — в страницу, за сезон — накопительно в events.json
+    hist = load_history()
+    night_events = {}
+    for g in games:
+        gid = str(g["id"])
+        in_game = [pid for pid, v in per_player.items() if v.get("gid") == g["id"]]
+        if not in_game:
+            continue
+        evs = collect_events(g, rus) if (gid not in hist["games"] or g.get("gameState") in ("LIVE","CRIT")) else \
+              [e for pid in in_game for e in hist["players"].get(str(pid), []) if str(e.get("gid")) == gid]
+        if g.get("gameState") not in ("LIVE","CRIT"):
+            hn, an = CLUBS.get(g["homeTeam"]["abbrev"]), CLUBS.get(g["awayTeam"]["abbrev"])
+            hist["games"][gid] = {"d": date.isoformat(), "m": f"{hn} — {an} {g['homeTeam'].get('score',0)}:{g['awayTeam'].get('score',0)}"}
+            for pid in in_game:
+                lst = [e for e in hist["players"].get(str(pid), []) if str(e.get("gid")) != gid]
+                lst += [{k: v for k, v in e.items() if k != "pid"} for e in evs if e["pid"] == pid]
+                hist["players"][str(pid)] = lst
+        for e in evs:
+            night_events.setdefault(str(e["pid"]), []).append({k: v for k, v in e.items() if k != "pid"})
+    with open("events.json", "w", encoding="utf-8") as f:
+        json.dump(hist, f, ensure_ascii=False, separators=(",", ":"))
 
     # «ещё за ночь»: передачи без голов и вратари
     for pid, v in per_player.items():
@@ -273,7 +364,7 @@ def build():
     # состав по клубам + сезон
     roster = {}
     for pid, v in rus.items():
-        roster.setdefault(v["club"], []).append([v["name"], v["pos"], "", season_line(pid, v["pos"]=="в")])
+        roster.setdefault(v["club"], []).append([v["name"], v["pos"], "", season_line(pid, v["pos"]=="в"), pid, v.get("num","")])
     roster_list = [[club, sorted(ps, key=lambda p: ("взн".index(p[1]), p[0]))] for club, ps in sorted(roster.items())]
 
     data = {
@@ -282,6 +373,8 @@ def build():
         "totals": [[str(len(games)), "матчей"], [str(len(set(r[0] for r in skaters)|set(r[0] for r in goalies))), "россиян на льду"], [str(ru_goals_total), "шайб наших"]],
         "moments": moments, "skaters": skaters, "goalies": goalies, "games": results, "tonight": tonight,
         "roster": roster_list, "logos": logos,
+        "players": {str(pid): {"name": v["name"], "club": v["club"], "pos": v["pos"], "num": v.get("num","")} for pid, v in rus.items()},
+        "events": night_events, "ev_names": EV,
         "source": {"title": "официальные данные НХЛ (api-web.nhle.com)", "url": "https://www.nhl.com/scores"},
     }
     return data
