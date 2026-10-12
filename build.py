@@ -82,7 +82,7 @@ def load_russians():
             for p in roster.get(group, []):
                 if p.get("birthCountry") == "RUS":
                     rus[p["id"]] = {"name": name_of(p), "club": CLUBS[abbrev], "abbrev": abbrev,
-                                    "pos": POS.get(p.get("positionCode"), "н")}
+                                    "pos": POS.get(p.get("positionCode"), "н"), "num": str(p.get("sweaterNumber") or "")}
     return rus
 
 
@@ -164,7 +164,7 @@ def goal_schemes(game_id, home_id, rus):
         sc = f"{d.get('homeScore','')}:{d.get('awayScore','')}"
         out.append({"pid": sid, "t": ", ".join(b for b in bits if b) + f" — счёт стал {sc}",
                     "via": ". ".join(via) if via else "Без передач",
-                    "shot": {"x": round(px), "y": round(py), "n": rus[sid]["name"].split()[-1][:3].upper()},
+                    "shot": {"x": round(px), "y": round(py), "n": rus[sid]["name"].split()[-1][:3].upper(), "num": rus[sid].get("num","")},
                     "empty": empty})
     return out
 
