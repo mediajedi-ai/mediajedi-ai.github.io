@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Наши в НХЛ — утренняя сводка</title>
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta name="theme-color" content="#0f2238">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Наши в НХЛ">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+  --bg:#eef2f6; --ice:#ffffff; --ink:#0f2238; --ink2:#4a5a6d; --line:#d6dee8;
+  --red:#c8102e; --red-soft:#fbe3e7; --blue:#1d4ed8; --blue-soft:#e3ebfb; --gold:#b7791f; --gold-soft:#fbf0d9;
+  --radius:14px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0c1520; --ice:#142030; --ink:#eef3f8; --ink2:#9fb0c3; --line:#243447;
+    --red:#ff4d63; --red-soft:#3a1a22; --blue:#7aa2ff; --blue-soft:#1b2a4a; --gold:#e3b04b; --gold-soft:#3a2f16;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0c1520; --ice:#142030; --ink:#eef3f8; --ink2:#9fb0c3; --line:#243447;
+  --red:#ff4d63; --red-soft:#3a1a22; --blue:#7aa2ff; --blue-soft:#1b2a4a; --gold:#e3b04b; --gold-soft:#3a2f16;
+}
+html{scroll-padding-top:env(safe-area-inset-top,0px);height:100%}
+*{box-sizing:inherit}
+body{margin:0;height:100%;background:var(--bg);color:var(--ink);
+  font-family:"Inter Tight",ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+  font-size:16px;line-height:1.45;-webkit-font-smoothing:antialiased}
+a{color:inherit}
+.wrap{max-width:720px;margin:0 auto;padding:0 16px 56px}
+.wrap.wide{max-width:1040px}
+/* сцена: площадка слева, список справа */
+.stage-grid{display:grid;grid-template-columns:1fr;gap:12px}
+@media (min-width:860px){.stage-grid{grid-template-columns:minmax(0,1.15fr) minmax(300px,.85fr);align-items:start}.stage{position:sticky;top:64px}}
+.stage{background:var(--ice);border:1px solid var(--line);border-radius:var(--radius);padding:14px 16px}
+.stage .rink-wrap{border-top:none;padding-top:0;margin-top:0}
+.goal-list{margin:0;padding:0;list-style:none;background:var(--ice);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden}
+.goal-list li{display:grid;grid-template-columns:auto 1fr auto;gap:4px 10px;align-items:center;padding:10px 14px;border-bottom:1px solid var(--line);cursor:pointer}
+.goal-list li:last-child{border-bottom:none}
+.goal-list li[aria-selected="true"]{background:var(--red-soft)}
+.goal-list li:focus-visible{outline:2px solid var(--blue);outline-offset:-2px}
+.goal-list .num{font-weight:800;font-size:13px;color:var(--ink2);width:20px}
+.goal-list .who{font-weight:700;font-size:16px}
+.goal-list .meta{grid-column:2;color:var(--ink2);font-size:13px}
+.goal-list .res{font-weight:800;font-variant-numeric:tabular-nums;text-align:right;white-space:nowrap}
+.goal-list .res small{display:block;font-size:11px;font-weight:600;color:var(--ink2)}
+.goal-list li.player{grid-template-columns:1fr auto}
+.goal-list li.player .meta{grid-column:1}
+.goal-list .cnt{font-weight:800;font-size:15px;padding:3px 10px;border-radius:8px;background:var(--red-soft);color:var(--red);white-space:nowrap}
+.goal-list li.sub{grid-template-columns:auto 1fr;padding-left:28px;background:var(--bg);font-size:14px}
+.goal-list li.sub .num{width:16px}
+.goal-list li.sub[aria-selected="true"]{background:var(--red-soft)}
+.goal-list li.sub[hidden]{display:none}
+.club{background:var(--ice);border:1px solid var(--line);border-radius:var(--radius);margin-bottom:8px;overflow:hidden}
+.club h3{margin:0;padding:10px 14px;font-size:15px;font-weight:700;border-bottom:1px solid var(--line);display:flex;justify-content:space-between}
+.club h3 span{color:var(--ink2);font-weight:600;font-size:13px}
+.club .pr{display:grid;grid-template-columns:auto 1fr auto;gap:2px 10px;align-items:center;padding:8px 14px;border-bottom:1px solid var(--line);font-size:15px}
+.club .pr:last-child{border-bottom:none}
+.club .pos{font-size:11px;font-weight:700;width:18px;height:18px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;background:var(--blue-soft);color:var(--blue)}
+.club .pos.v{background:var(--gold-soft);color:var(--gold)}.club .pos.z{background:var(--bg);color:var(--ink2);border:1px solid var(--line)}
+.club .pn{font-weight:600}
+.club .pn.scored{color:var(--red)}
+.club .last{grid-column:2/-1;font-size:13px;color:var(--ink2)}
+.club .last b{color:var(--ink);font-weight:600}
+.club .st{grid-column:2/-1;font-size:13px;color:var(--gold)}
+.club a.yl{font-size:12px;font-weight:600;text-decoration:none;color:var(--red);white-space:nowrap}
+.roster-grid{display:grid;grid-template-columns:1fr;gap:0 12px}
+@media (min-width:720px){.roster-grid{grid-template-columns:1fr 1fr}}
+.lg{width:34px;height:34px;object-fit:contain;vertical-align:middle;margin-right:8px;flex:0 0 auto}
+.game{grid-template-columns:1fr auto;gap:6px 14px;padding:12px 14px}
+.game .teams span{display:flex;align-items:center;gap:10px;font-size:17px}
+.game .teams span+span{margin-top:6px}
+.game .lg{width:40px;height:40px;margin:0}
+.game .score{font-size:26px}
+.club h3{padding:12px 14px;font-size:16px}
+.club h3 .lg{width:36px;height:36px}
+.club h3 .cl{display:flex;align-items:center;gap:10px}
+.stage-head{align-items:center}
+.stage-head .lg{width:44px;height:44px}
+.goal-list li.player{grid-template-columns:auto 1fr auto;align-items:center}
+.goal-list li.player .meta{grid-column:2}
+.goal-list .who{display:flex;align-items:center;gap:8px}
+.goal-list .who .lg{width:36px;height:36px;margin:0}
+.m-top{align-items:center}
+.m-top .who{display:flex;align-items:center;gap:8px}
+.m-top .lg{width:36px;height:36px;margin:0}
+@media (max-width:420px){.lg{width:30px;height:30px}.game .lg{width:34px;height:34px}.stage-head .lg{width:38px;height:38px}}
+.rink .goal-flash{font:800 13px "Inter Tight",sans-serif;fill:#c8102e;text-anchor:middle;opacity:0}
+.rink .skater text{font-family:"Inter Tight",sans-serif}
+.stage-head{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;margin-bottom:6px}
+.stage-head .who{font-weight:800;font-size:20px;letter-spacing:-.01em}
+.stage-head .club{color:var(--ink2);font-size:14px}
+
+header{padding:22px 0 12px}
+header h1{margin:0;font-size:30px;font-weight:800;letter-spacing:-.02em;line-height:1.05}
+header .sub{margin:6px 0 0;color:var(--ink2);font-size:15px}
+.totals{display:flex;gap:18px;margin:16px 0 6px;flex-wrap:wrap}
+.totals div{font-size:15px;color:var(--ink2)}
+.totals b{display:block;font-size:28px;font-weight:800;color:var(--ink);line-height:1;letter-spacing:-.02em}
+
+nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);padding:10px 0;display:flex;gap:6px;overflow-x:auto;scrollbar-width:none}
+nav::-webkit-scrollbar{display:none}
+nav button{flex:0 0 auto;border:1px solid var(--line);background:var(--ice);color:var(--ink);font:inherit;font-weight:600;font-size:14px;padding:8px 14px;border-radius:999px;cursor:pointer}
+nav button[aria-selected="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+nav button:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+
+section{display:none;padding-top:8px}
+section.on{display:block}
+h2{font-size:14px;font-weight:600;color:var(--ink2);margin:18px 0 8px}
+
+.moment{background:var(--ice);border:1px solid var(--line);border-radius:var(--radius);padding:14px 16px;margin-bottom:10px}
+.moment.lead{border-color:var(--red);border-width:2px}
+.m-top{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+.m-top .who{font-weight:800;font-size:19px;letter-spacing:-.01em}
+.m-top .club{color:var(--ink2);font-size:14px}
+.badge{margin-left:auto;font-weight:800;font-size:15px;padding:3px 10px;border-radius:8px;white-space:nowrap}
+.badge.goal{background:var(--red-soft);color:var(--red)}
+.badge.assist{background:var(--blue-soft);color:var(--blue)}
+.badge.save{background:var(--gold-soft);color:var(--gold)}
+.m-what{margin:6px 0 0;font-size:15px}
+.m-score{margin:6px 0 0;color:var(--ink2);font-size:14px}
+.m-score b{color:var(--ink)}
+.links{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
+.links a{text-decoration:none;font-size:14px;font-weight:600;padding:8px 12px;border-radius:9px;border:1px solid var(--line);background:var(--bg)}
+.links a.yt{border-color:var(--red);color:var(--red)}
+.links a:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+
+.tbl{width:100%;border-collapse:collapse;background:var(--ice);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;font-size:15px}
+.scroll{overflow-x:auto;border-radius:var(--radius)}
+.tbl th,.tbl td{padding:9px 10px;text-align:left;border-bottom:1px solid var(--line);white-space:nowrap}
+.tbl th{font-size:13px;font-weight:600;color:var(--ink2)}
+.tbl tr:last-child td{border-bottom:none}
+.tbl td.n{font-weight:600}
+.tbl td.c{color:var(--ink2)}
+.tbl td.r{text-align:right;font-variant-numeric:tabular-nums}
+.tbl tr.pts td.n{color:var(--red)}
+.tbl th.r{text-align:right}
+
+.game{background:var(--ice);border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin-bottom:8px;display:grid;grid-template-columns:1fr auto;gap:4px 12px;align-items:center}
+.game .teams{font-weight:600}
+.game .teams span{display:block}
+.game .score{font-weight:800;font-size:22px;letter-spacing:-.02em;font-variant-numeric:tabular-nums;text-align:right;line-height:1.1}
+.game .score small{display:block;font-size:12px;font-weight:600;color:var(--ink2)}
+.game .ru{grid-column:1/-1;color:var(--ink2);font-size:14px}
+.game .ru b{color:var(--ink);font-weight:600}
+.game .time{font-weight:800;font-size:20px;text-align:right}
+.note{color:var(--ink2);font-size:14px;margin:10px 0}
+
+/* схема гола */
+.rink-wrap{margin-top:12px;border-top:1px solid var(--line);padding-top:10px}
+.rink-cap{font-size:14px;color:var(--ink2);margin:0 0 6px}
+.rink-cap b{color:var(--ink);font-weight:600}
+.rink{display:block;width:100%;height:auto;border-radius:10px;cursor:pointer}
+.rink .ice{fill:#f6f9fc;stroke:#b9c7d6;stroke-width:1.5}
+.rink .ln{stroke:#c53a4a;stroke-width:1.2;fill:none}
+.rink .bl{stroke:#2b5fd3;stroke-width:1.6;fill:none}
+.rink .cr{stroke:#c53a4a;stroke-width:1;fill:none;opacity:.6}
+.rink .net{fill:#d6e0ec;stroke:#8a9bb0;stroke-width:1}
+.rink .pl{stroke:#fff;stroke-width:1.5}
+.rink .pl.s{fill:#c8102e}.rink .pl.a{fill:#1d4ed8}.rink .pl.g{fill:#6b7a8c}
+.rink .nm{font:700 7px "Inter Tight",sans-serif;fill:#fff;text-anchor:middle;dominant-baseline:central}
+.rink .lbl{font:600 7px "Inter Tight",sans-serif;fill:#0f2238;text-anchor:middle}
+.rink .trace{stroke:#0f2238;stroke-width:1.2;fill:none;stroke-dasharray:3 3;opacity:.45}
+.rink .puck{fill:#0f2238}
+.rink-hint{font-size:12px;color:var(--ink2);margin:4px 0 0}
+@media (prefers-reduced-motion:reduce){.rink animateMotion{display:none}}
+footer{margin-top:28px;color:var(--ink2);font-size:13px;line-height:1.5}
+footer a{color:var(--ink2)}
+@media (max-width:420px){header h1{font-size:26px}.totals{gap:14px}.totals b{font-size:24px}}
+</style>
+</head>
+<body>
+<div class="wrap wide">
+<header>
+  <h1>Наши в НХЛ</h1>
+  <p class="sub" id="sub"></p>
+  <div class="totals" id="totals"></div>
+</header>
+
+<nav role="tablist" id="tabs">
+  <button role="tab" aria-selected="true" data-t="moments">Голы и моменты</button>
+  <button role="tab" aria-selected="false" data-t="roster">Все наши</button>
+  <button role="tab" aria-selected="false" data-t="players">Ночью на льду</button>
+  <button role="tab" aria-selected="false" data-t="games">Все матчи</button>
+  <button role="tab" aria-selected="false" data-t="tonight">Сегодня ночью</button>
+</nav>
+
+<section id="moments" class="on"></section>
+<section id="roster"></section>
+<section id="players"></section>
+<section id="games"></section>
+<section id="tonight"></section>
+
+<footer id="foot"></footer>
+</div>
+
+<script>
+// ===== ДАННЫЕ (обновляются каждое утро) =====
+/*__DATA__*/
+
+// ===== СХЕМА ГОЛА (площадка 400×170, атака слева направо, ворота справа) =====
+let rinkN = 0;
+function rink(g){
+  const id = 'rk' + (++rinkN);
+  const net = {x:372, y:85};
+  const from = g.pass || g.start || null;
+  const path1 = from ? `M${from.x},${from.y} L${g.shot.x},${g.shot.y}` : '';
+  const path2 = `M${g.shot.x+36},${g.shot.y} L${net.x-6},${net.y}`;
+  const d1 = from ? (g.start ? 1.4 : 0.7) : 0;
+  const skFrom = g.start ? g.start : {x: Math.max(60, g.shot.x - 90), y: 85 + (g.shot.y - 85) * 0.4};
+  const skPath = `M${skFrom.x},${skFrom.y} L${g.shot.x},${g.shot.y}`;
+  const num = String(g.shot.num || g.shot.n || '');
+  const pl = (p,cls,label) => `<circle class="pl ${cls}" cx="${p.x}" cy="${p.y}" r="9"/><text class="nm" x="${p.x}" y="${p.y}">${esc(p.n)}</text>${label?`<text class="lbl" x="${p.x}" y="${p.y+17}">${esc(label)}</text>`:''}`;
+  return `
+  <p class="rink-cap"><b>${esc(g.t)}.</b> ${esc(g.via)}</p>
+  <svg class="rink" id="${id}" viewBox="0 0 400 170" role="img" aria-label="${esc(g.t)}" onclick="playRink('${id}')">
+    <rect class="ice" x="2" y="2" width="396" height="166" rx="28"/>
+    <line class="ln" x1="200" y1="2" x2="200" y2="168"/>
+    <line class="bl" x1="125" y1="2" x2="125" y2="168"/><line class="bl" x1="275" y1="2" x2="275" y2="168"/>
+    <line class="cr" x1="28" y1="2" x2="28" y2="168"/><line class="cr" x1="372" y1="2" x2="372" y2="168"/>
+    <circle class="cr" cx="200" cy="85" r="24"/>
+    <circle class="cr" cx="330" cy="47" r="22"/><circle class="cr" cx="330" cy="123" r="22"/>
+    <circle class="cr" cx="70" cy="47" r="22"/><circle class="cr" cx="70" cy="123" r="22"/>
+    <path class="cr" d="M372,70 a18,18 0 0 0 0,30" fill="#dbe7f5"/>
+    <rect class="net" x="372" y="78" width="7" height="14"/>
+    <rect class="net" x="21" y="78" width="7" height="14"/>
+    ${from ? `<path class="trace" d="${path1}"/>` : ''}
+    <path class="trace" d="${path2}"/>
+    ${g.empty ? `<text class="lbl" x="372" y="68">пустые ворота</text>` : `<g transform="translate(362,98)"><g class="goalie">
+        <!-- щитки -->
+        <rect x="-9" y="-8" width="6" height="14" rx="2" fill="#f2f4f7" stroke="#8a9bb0" stroke-width="1"/>
+        <rect x="3" y="-8" width="6" height="14" rx="2" fill="#f2f4f7" stroke="#8a9bb0" stroke-width="1"/>
+        <!-- корпус -->
+        <path d="M-8,-9 L-6,-22 L6,-22 L8,-9 z" fill="#6b7a8c"/>
+        <!-- блин и ловушка -->
+        <rect x="-15" y="-19" width="6" height="8" rx="1.5" fill="#f2f4f7" stroke="#8a9bb0"/>
+        <circle cx="12" cy="-16" r="3.4" fill="#f2f4f7" stroke="#8a9bb0"/>
+        <!-- маска -->
+        <circle cx="0" cy="-26" r="4.2" fill="#ffffff" stroke="#0f2238" stroke-width="1.1"/>
+        <path d="M-2,-27 l4,0 M-2,-25 l4,0" stroke="#0f2238" stroke-width=".8"/>
+      </g></g>`}
+    <text class="goal-flash" x="340" y="${net.y < 60 ? 150 : 24}">ГОЛ!<animate attributeName="opacity" values="0;1;1;0" keyTimes="0;0.1;0.7;1" dur="1.8s" begin="${id}b.end"/></text>
+    ${g.pass ? pl(g.pass,'a','пас') : ''}
+    ${g.start ? pl(g.start,'s','перехват') : ''}
+    <circle cx="${g.shot.x}" cy="${g.shot.y}" r="3" fill="#c53a4a" opacity=".35"/>
+    <g class="skater">
+      <animateMotion id="${id}s" dur="${g.start ? 1.4 : 0.9}s" begin="indefinite" fill="freeze" path="${skPath}" calcMode="spline" keySplines="0.3 0 0.7 1"/>
+        <!-- конёк задний -->
+        <path d="M-14,2 l9,-1 l1,2 l-10,0 z" fill="#0f2238"/>
+        <!-- нога задняя -->
+        <path d="M-12,1 L-4,-11 L2,-9 L-7,2 z" fill="#1d2f4a"/>
+        <!-- конёк передний -->
+        <path d="M6,2 l9,-1 l1,2 l-10,0 z" fill="#0f2238"/>
+        <!-- нога передняя -->
+        <path d="M7,1 L5,-11 L11,-12 L13,2 z" fill="#243a5c"/>
+        <!-- свитер / корпус, наклон вперёд -->
+        <path d="M-6,-10 L-1,-26 L12,-24 L14,-9 L4,-7 z" fill="#c8102e"/>
+        <path d="M-1,-26 L12,-24 L11,-20 L-1,-21 z" fill="#ffffff" opacity=".85"/>
+        <!-- рука + перчатка -->
+        <path d="M10,-21 L19,-13 L23,-14 L15,-24 z" fill="#c8102e"/>
+        <circle cx="22" cy="-13" r="2.6" fill="#0f2238"/>
+        <!-- шлем -->
+        <circle cx="14" cy="-30" r="4.6" fill="#ffffff" stroke="#0f2238" stroke-width="1.1"/>
+        <path d="M15,-28 a4.6,4.6 0 0 1 4,-1" fill="none" stroke="#0f2238" stroke-width="1"/>
+        <!-- клюшка -->
+        <g class="stick">
+          <animateTransform attributeName="transform" type="rotate" values="0 22 -13;-28 22 -13;10 22 -13;0 22 -13" keyTimes="0;0.4;0.75;1" dur="0.45s" begin="${id}s.end" fill="freeze"/>
+          <path d="M22,-13 L31,-1" stroke="#8a5a2b" stroke-width="2" stroke-linecap="round"/>
+          <path d="M31,-1 L38,0" stroke="#3a2a1a" stroke-width="2.4" stroke-linecap="round"/>
+        </g>
+        <!-- номер -->
+        <text x="6" y="-14" font-family="sans-serif" font-size="${num.length>2?5.2:7}" font-weight="700" fill="#fff" text-anchor="middle">${esc(num)}</text>
+      </g>
+    <circle class="puck" r="3.2" cx="0" cy="0" opacity="0">
+      <set attributeName="opacity" to="1" begin="${id}b.begin" fill="freeze"/>
+      <animateMotion id="${id}b" dur="0.4s" begin="${id}s.end+0.3s" fill="freeze" path="${path2}" calcMode="spline" keySplines="0.2 0 0.6 1"/>
+    </circle>
+  </svg>`;
+}
+function playRink(id){
+  const sk = document.getElementById(id+'s');
+  if(sk){ sk.beginElement(); }
+}
+
+// ===== РЕНДЕР =====
+const LOGO = (DATA.logos||{});
+const lg = club => LOGO[club] ? `<img class="lg" src="${esc(LOGO[club])}" alt="" loading="lazy">` : '';
+const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const yt = q => "https://www.youtube.com/results?search_query=" + encodeURIComponent(q);
+const ya = q => "https://yandex.ru/video/search?text=" + encodeURIComponent(q);
+
+document.getElementById('sub').textContent = DATA.night + " · обновлено " + DATA.updated;
+document.getElementById('totals').innerHTML = DATA.totals.map(([n,l]) => `<div><b>${esc(n)}</b>${esc(l)}</div>`).join('');
+
+// плоский список голов для правой колонки
+const GOALS = [];
+DATA.moments.forEach(m => (m.goals||[]).forEach(g => GOALS.push({...g, who:g.who||m.who, club:g.club||m.club, score:m.score, res:m.res, yt:m.yt, ya:m.ya})));
+const OTHER = DATA.moments.filter(m => !m.goals);
+const PLAYERS = [];
+GOALS.forEach((g,i) => { let p = PLAYERS.find(x => x.who===g.who); if(!p){ p={key:PLAYERS.length, who:g.who, club:g.club, score:g.score, res:g.res, items:[], n:0, first:i}; PLAYERS.push(p);} p.items.push(i); p.n++; });
+
+document.getElementById('moments').innerHTML = `
+  <div class="stage-grid">
+    <div class="stage" id="stage"></div>
+    <div>
+      <ul class="goal-list" id="goalList" role="listbox" aria-label="Голы россиян">
+        ${PLAYERS.map(p => `<li class="player" role="option" tabindex="0" data-p="${p.key}" data-i="${p.first}" aria-selected="false">
+          <span class="who">${lg(p.club)}<span>${esc(p.who)}</span></span>
+          <span class="cnt">${p.n===1?'1 гол':p.n<5?p.n+' гола':p.n+' голов'}</span>
+          <span class="meta">${esc(p.club)} · ${esc(p.score)} ${esc(p.res)}</span></li>
+          ${p.n>1 ? p.items.map((i,k) => `<li class="sub" role="option" tabindex="0" data-p="${p.key}" data-i="${i}" aria-selected="false" hidden>
+            <span class="num">${k+1}</span><span>${esc(GOALS[i].t)}</span></li>`).join('') : ''}`).join('')}
+      </ul>
+      <p class="rink-hint">Нажмите на гол — слева проиграется схема. Схема показывает суть момента, не точные позиции.</p>
+    </div>
+  </div>
+  <h2>Ещё за ночь</h2>
+  ${OTHER.map(m => `
+  <article class="moment">
+    <div class="m-top"><span class="who">${lg(m.club)}${esc(m.who)}</span><span class="club">${esc(m.club)}</span>
+      <span class="badge ${m.badge[0]}">${esc(m.badge[1])}</span></div>
+    <p class="m-what">${esc(m.what)}</p>
+    <p class="m-score">${esc(m.score)} <b>${esc(m.res)}</b></p>
+    <div class="links">
+      <a class="yt" href="${yt(m.yt)}" target="_blank" rel="noopener">Смотреть на YouTube</a>
+      <a href="${ya(m.ya)}" target="_blank" rel="noopener">Видео в Яндексе</a>
+    </div>
+  </article>`).join('')}`;
+
+let stageTimer = null;
+function showGoal(i, scroll){
+  const g = GOALS[i]; if(!g) return;
+  const pkey = PLAYERS.find(p => p.items.includes(i)).key;
+  document.querySelectorAll('#goalList li').forEach(li => {
+    const mine = li.dataset.p == pkey;
+    if(li.classList.contains('sub')) li.hidden = !mine;
+    li.setAttribute('aria-selected', mine && (li.classList.contains('player') || li.dataset.i == i));
+  });
+  const st = document.getElementById('stage');
+  st.innerHTML = `
+    <div class="stage-head"><span class="who">${lg(g.club)}${esc(g.who)}</span><span class="club">${esc(g.club)}</span>
+      <span class="badge goal">${esc(g.score)} ${esc(g.res)}</span></div>
+    <div class="rink-wrap">${rink(g)}</div>
+    <div class="links">
+      <a class="yt" href="${yt(g.yt)}" target="_blank" rel="noopener">Смотреть на YouTube</a>
+      <a href="${ya(g.ya)}" target="_blank" rel="noopener">Видео в Яндексе</a>
+    </div>`;
+  const id = st.querySelector('.rink').id;
+  if(stageTimer) clearInterval(stageTimer);
+  setTimeout(() => playRink(id), 250);
+  stageTimer = setInterval(() => playRink(id), 4000);
+  if(scroll && window.innerWidth < 860) st.scrollIntoView({behavior:'smooth', block:'start'});
+  try{ localStorage.setItem('nhl-goal', String(i)); }catch(_){}
+}
+document.getElementById('goalList').addEventListener('click', e => { const li = e.target.closest('li'); if(li) showGoal(+li.dataset.i, true); });
+document.getElementById('goalList').addEventListener('keydown', e => { if(e.key==='Enter'||e.key===' '){ const li = e.target.closest('li'); if(li){ e.preventDefault(); showGoal(+li.dataset.i, true);} } });
+showGoal(0, false);
+
+// «Все наши» — состав по клубам + строка за ночь, если играл
+const NIGHT = {};
+DATA.skaters.forEach(([n,c,p,sh,t]) => NIGHT[n] = {line:`${p}, броски ${sh}, ${t}`, scored: !p.startsWith('0')});
+DATA.goalies.forEach(([n,c,sv,pct]) => NIGHT[n] = {line:`отразил ${sv} (${pct})`, scored:false});
+const posName = {в:'вратарь', з:'защитник', н:'нападающий'};
+const total = DATA.roster.reduce((a,[,ps]) => a+ps.length, 0);
+document.getElementById('roster').innerHTML = `
+  <p class="note">${total} россиян в ${DATA.roster.length} клубах на старт сезона. Красным — кто набрал очки этой ночью; под именем — строка за ночь и за сезон.</p>
+  <div class="roster-grid">${DATA.roster.map(([club, ps]) => `
+  <div class="club"><h3><span class="cl">${lg(club)}${esc(club)}</span><span>${ps.length}</span></h3>
+    ${ps.map(([n,pos,st,season]) => { const ng = NIGHT[n]; return `
+    <div class="pr">
+      <span class="pos ${pos==='в'?'v':pos==='з'?'z':''}" title="${posName[pos]}">${pos.toUpperCase()}</span>
+      <span class="pn ${ng&&ng.scored?'scored':''}">${esc(n)}</span>
+      <a class="yl" href="${yt(n+' НХЛ 2026 голы моменты')}" target="_blank" rel="noopener">видео</a>
+      ${ng ? `<span class="last">Ночью: <b>${esc(ng.line)}</b></span>` : ''}
+      ${season ? `<span class="last">Сезон: <b>${esc(season)}</b></span>` : ''}
+      ${st ? `<span class="st">${esc(st)}</span>` : ''}
+    </div>`; }).join('')}
+  </div>`).join('')}</div>`;
+
+document.getElementById('players').innerHTML = `
+  <p class="note">Все россияне, выходившие на лёд этой ночью.</p>
+  <h2>Полевые игроки — ${DATA.skaters.length}</h2>
+  <div class="scroll"><table class="tbl"><thead><tr><th>Игрок</th><th>Клуб</th><th class="r">Г+П</th><th class="r">Броски</th><th class="r">Время</th></tr></thead><tbody>
+  ${DATA.skaters.map(([n,c,p,s,t]) => `<tr class="${p!=='0+0'?'pts':''}"><td class="n">${esc(n)}</td><td class="c">${esc(c)}</td><td class="r">${esc(p)}</td><td class="r">${s}</td><td class="r">${esc(t)}</td></tr>`).join('')}
+  </tbody></table></div>
+  <h2>Вратари — ${DATA.goalies.length}</h2>
+  <div class="scroll"><table class="tbl"><thead><tr><th>Вратарь</th><th>Клуб</th><th class="r">Отражено</th><th class="r">% сейвов</th></tr></thead><tbody>
+  ${DATA.goalies.map(([n,c,s,p]) => `<tr><td class="n">${esc(n)}</td><td class="c">${esc(c)}</td><td class="r">${esc(s)}</td><td class="r">${esc(p)}</td></tr>`).join('')}
+  </tbody></table></div>`;
+
+document.getElementById('games').innerHTML = DATA.games.map(([h,a,hs,as,x,ru]) => `
+  <div class="game">
+    <div class="teams"><span>${lg(h)}${esc(h)}</span><span>${lg(a)}${esc(a)}</span></div>
+    <div class="score">${hs}:${as}${x?`<small>${esc(x)}</small>`:''}</div>
+    <div class="ru"><b>Наши:</b> ${esc(ru)}</div>
+  </div>`).join('');
+
+document.getElementById('tonight').innerHTML = `<p class="note">Время екатеринбургское.</p>` + DATA.tonight.map(([h,a,t,ru]) => `
+  <div class="game">
+    <div class="teams"><span>${lg(h)}${esc(h)}</span><span>${lg(a)}${esc(a)}</span></div>
+    <div class="time">${esc(t)}</div>
+    <div class="ru">${esc(ru)}</div>
+  </div>`).join('');
+
+document.getElementById('foot').innerHTML = `Статистика россиян — по сводке <a href="${esc(DATA.source.url)}" target="_blank" rel="noopener">${esc(DATA.source.title)}</a>, результаты матчей — по данным лиги.`;
+
+// вкладки
+const tabs = document.getElementById('tabs');
+tabs.addEventListener('click', e => {
+  const b = e.target.closest('button'); if(!b) return;
+  tabs.querySelectorAll('button').forEach(x => x.setAttribute('aria-selected', x===b));
+  document.querySelectorAll('section').forEach(s => s.classList.toggle('on', s.id===b.dataset.t));
+  try{ localStorage.setItem('nhl-tab', b.dataset.t); }catch(_){}
+});
+try{ const t = localStorage.getItem('nhl-tab'); if(t){ const b = tabs.querySelector(`[data-t="${t}"]`); if(b) b.click(); } }catch(_){}
+if('serviceWorker' in navigator){ navigator.serviceWorker.register('sw.js').catch(()=>{}); }
+</script>
+</body>
+</html>
