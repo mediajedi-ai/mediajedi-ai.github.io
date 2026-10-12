@@ -225,6 +225,7 @@ footer a{color:var(--ink2)}
 .prog .tick{position:absolute;top:-3px;width:2px;height:12px;background:var(--ink2)}
 .prog-l{display:flex;justify-content:space-between;font-size:11px;color:var(--ink2);margin-top:3px}
 .heat .ev{opacity:0;transition:opacity .25s}.heat .ev.on{opacity:1}
+.heat .st{opacity:0;transition:opacity .3s}.heat .st.on{opacity:1}
 .heat .nm{font:700 7px "Inter Tight",sans-serif;fill:#0f2238;text-anchor:middle;paint-order:stroke;stroke:#ffffff;stroke-width:2.5px}
 .heat .nm.red{fill:#c8102e}.heat .nm.yel{fill:#8a6400}
 .heat .arr{stroke:#8a6400;stroke-width:1.3;stroke-dasharray:3 2;fill:none}
@@ -361,20 +362,24 @@ const RINK = `<rect class="ice" x="2" y="2" width="396" height="166" rx="28"/>
     <line class="cr" x1="28" y1="2" x2="28" y2="168"/><line class="cr" x1="372" y1="2" x2="372" y2="168"/>
     <circle class="cr" cx="200" cy="85" r="24"/><circle class="cr" cx="330" cy="47" r="22"/><circle class="cr" cx="330" cy="123" r="22"/><circle class="cr" cx="70" cy="47" r="22"/><circle class="cr" cx="70" cy="123" r="22"/>
     <rect class="net" x="372" y="78" width="7" height="14"/><rect class="net" x="21" y="78" width="7" height="14"/>`;
-// сцена гола: забивший красным, пасующие жёлтым, фамилии, стрелки
+// сцена гола: этапы раскрываются по очереди, шайба идёт по цепочке пасов и в ворота
 function goalScene(e, goalie){
   const [px,py] = toPx(e.xy); const dir = py < 85 ? 1 : -1; const left = goalie ? 1 : -1;  // у вратаря атака идёт слева
   const sc = {x:px, y:py, n:e.by||''};
   const net = goalie ? {x:24, y:85} : {x:376, y:85};
   const pid_ = 'pk' + Math.random().toString(36).slice(2,8);
   const a = (e.as||[]).map((n,i) => ({x: Math.max(40, Math.min(360, px + left*(48 + i*42))), y: Math.max(20, Math.min(150, py + dir*(20 - i*10))), n}));
-  const chain = [...a].reverse().concat([sc]);
-  const arrows = chain.slice(0,-1).map((p,i) => `<line class="arr" x1="${p.x}" y1="${p.y}" x2="${chain[i+1].x}" y2="${chain[i+1].y}"/>`).join('');
-  return arrows + a.map(p => `<circle cx="${p.x}" cy="${p.y}" r="4" fill="#f5c400" stroke="#fff" stroke-width="1"/><text class="nm yel" x="${p.x}" y="${p.y-7}">${esc(p.n)}</text>`).join('')
-    + `<circle cx="${sc.x}" cy="${sc.y}" r="5" fill="#c8102e" stroke="#fff" stroke-width="1.2"/><text class="nm red" x="${sc.x}" y="${sc.y-8}">${esc(sc.n)}${e.sc?` · ${esc(e.sc)}`:''}</text>`
-    + `<line class="shot" x1="${sc.x}" y1="${sc.y}" x2="${net.x}" y2="${net.y}"/>
-       <circle class="puck" r="3.4" cx="0" cy="0" opacity="0"><set attributeName="opacity" to="1" begin="${pid_}.begin" fill="freeze"/><animateMotion id="${pid_}" dur="0.45s" begin="indefinite" fill="freeze" path="M${sc.x},${sc.y} L${net.x},${net.y}" calcMode="spline" keySplines="0.2 0 0.6 1"/></circle>
-       <text class="goal-flash" x="${net.x + (goalie ? 30 : -30)}" y="${net.y < 60 ? 150 : 24}">ГОЛ!<animate attributeName="opacity" values="0;1;1;0" keyTimes="0;0.1;0.75;1" dur="1.6s" begin="${pid_}.end"/></text>`;
+  const chain = [...a].reverse().concat([sc]);           // второй пас → первый пас → бросок
+  const stages = chain.map((p,i) => {
+    const isSc = i === chain.length-1;
+    const arrow = i ? `<line class="arr" x1="${chain[i-1].x}" y1="${chain[i-1].y}" x2="${p.x}" y2="${p.y}"/>` : '';
+    return `<g class="st" data-st="${i}">${arrow}<circle cx="${p.x}" cy="${p.y}" r="${isSc?5:4}" fill="${isSc?'#c8102e':'#f5c400'}" stroke="#fff" stroke-width="1.2"/><text class="nm ${isSc?'red':'yel'}" x="${p.x}" y="${p.y-8}">${esc(p.n)}${isSc&&e.sc?` · ${esc(e.sc)}`:''}</text></g>`;
+  }).join('');
+  const path = 'M' + chain.map(p => `${p.x},${p.y}`).join(' L') + ` L${net.x},${net.y}`;
+  const dur = (0.9 * (chain.length-1) + 0.5).toFixed(2);
+  return stages + `<g class="st" data-st="${chain.length}"><line class="shot" x1="${sc.x}" y1="${sc.y}" x2="${net.x}" y2="${net.y}"/></g>
+    <circle class="puck" r="3.4" cx="0" cy="0" opacity="0"><set attributeName="opacity" to="1" begin="${pid_}.begin" fill="freeze"/><animateMotion id="${pid_}" dur="${dur}s" begin="indefinite" fill="freeze" path="${path}"/></circle>
+    <text class="goal-flash" x="${net.x + (goalie ? 30 : -30)}" y="${net.y < 60 ? 150 : 24}">ГОЛ!<animate attributeName="opacity" values="0;1;1;0" keyTimes="0;0.1;0.75;1" dur="1.6s" begin="${pid_}.end"/></text>`;
 }
 function kino(evs, goalie){
   const list = evs.filter(e => e.xy && (goalie ? e.t.startsWith('faced') : !e.t.startsWith('faced'))).sort((a,b) => secs(a)-secs(b));
@@ -403,16 +408,19 @@ function runKino(card, evs, goalie){
   const step = () => {
     if(!playing) return;
     if(i >= list.length){ playing = false; icon(); clock.textContent = 'матч окончен'; return; }
-    const e = list[i]; if(gs[i]){ gs[i].classList.add('on'); const am = gs[i].querySelector('animateMotion'); if(am) setTimeout(() => am.beginElement(), 350); }
+    const e = list[i]; let wait = 650;
+    if(gs[i]){ gs[i].classList.add('on'); const sts = [...gs[i].querySelectorAll('.st')]; const am = gs[i].querySelector('animateMotion');
+      if(sts.length){ sts.forEach((g,k) => setTimeout(() => g.classList.add('on'), 300 + k*900)); if(am) setTimeout(() => am.beginElement(), 600); wait = 300 + sts.length*900 + 1800; } }
     rows.forEach(r => { r.classList.remove('now'); if(r.dataset.s !== undefined) r.classList.toggle('future', +r.dataset.s > secs(e)); });
     const row = rows.find(r => +r.dataset.s === secs(e) && r.dataset.t === e.t); if(row) row.classList.add('now');
     clock.textContent = `${pstr(e.p)} · ${e.m}`; fill.style.width = Math.min(100, secs(e)/3600*100) + '%';
     if(e.sc) score.textContent = e.sc;
     const isGoal = e.t==='goal' || e.t==='faced-goal' || e.t==='assist';
-    i++; kinoTimer = setTimeout(step, isGoal ? 2200 : 650);
+    i++; kinoTimer = setTimeout(step, wait);
   };
   pp.onclick = () => { playing = !playing; icon(); if(playing){ if(i >= list.length){ i = 0; gs.forEach(g => g.classList.remove('on')); score.textContent=''; } step(); } else clearTimeout(kinoTimer); };
-  card.querySelector('.heat').onclick = ev => { const g = ev.target.closest('.ev.on'); const am = g && g.querySelector('animateMotion'); if(am) am.beginElement(); };
+  card.querySelector('.heat').onclick = ev => { const g = ev.target.closest('.ev.on'); if(!g) return; const sts = [...g.querySelectorAll('.st')]; const am = g.querySelector('animateMotion');
+    sts.forEach(x => x.classList.remove('on')); sts.forEach((x,k) => setTimeout(() => x.classList.add('on'), 300 + k*900)); if(am) setTimeout(() => am.beginElement(), 600); };
   icon(); clearTimeout(kinoTimer); kinoTimer = setTimeout(step, 500);
 }
 function evList(evs){
