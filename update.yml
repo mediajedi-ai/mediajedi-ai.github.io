@@ -1,0 +1,28 @@
+name: Обновить сводку «Наши в НХЛ»
+
+on:
+  schedule:
+    # время в UTC; Екатеринбург = UTC+5 → 07:00, 09:00, 11:00, 13:00 по Екб
+    - cron: "0 2,4,6,8 * * *"
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Собрать страницу
+        run: python build.py
+      - name: Сохранить в репозиторий
+        run: |
+          git config user.name "nhl-bot"
+          git config user.email "nhl-bot@users.noreply.github.com"
+          git add index.html data.json
+          git diff --cached --quiet && echo "без изменений" || git commit -m "Сводка: $(date -u +'%Y-%m-%d %H:%M UTC')"
+          git push
