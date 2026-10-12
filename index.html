@@ -77,6 +77,16 @@ a{color:inherit}
 .club a.yl{font-size:12px;font-weight:600;text-decoration:none;color:var(--red);white-space:nowrap}
 .roster-grid{display:grid;grid-template-columns:1fr;gap:0 12px}
 @media (min-width:720px){.roster-grid{grid-template-columns:1fr 1fr}}
+.lg{width:22px;height:22px;object-fit:contain;vertical-align:middle;margin-right:6px}
+.game .teams span{display:flex;align-items:center;gap:6px}
+.game .lg{width:26px;height:26px;margin:0}
+.club h3 .lg{width:24px;height:24px}
+.club h3 .cl{display:flex;align-items:center;gap:8px}
+.stage-head .lg{width:28px;height:28px}
+.goal-list .who .lg{width:20px;height:20px}
+.rink .sk{stroke:#0f2238;stroke-width:2.2;stroke-linecap:round;fill:none}
+.rink .sk-head{fill:#c8102e;stroke:#fff;stroke-width:1}
+.rink .sk-stick{stroke:#8a5a2b;stroke-width:2;stroke-linecap:round}
 .stage-head{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;margin-bottom:6px}
 .stage-head .who{font-weight:800;font-size:20px;letter-spacing:-.01em}
 .stage-head .club{color:var(--ink2);font-size:14px}
@@ -186,7 +196,7 @@ footer a{color:var(--ink2)}
 
 <script>
 // ===== ДАННЫЕ (обновляются каждое утро) =====
-const DATA = {"updated": "12.10.2026 15:19 (Екб)", "night": "матчи в ночь на 12.10", "totals": [["3", "матчей"], ["6", "россиян на льду"], ["2", "шайб наших"]], "moments": [{"who": "Александр Овечкин", "club": "Вашингтон", "badge": ["goal", "1+0"], "what": "1 гол в матче Вашингтон — Сиэтл 3:5.", "score": "Вашингтон — Сиэтл", "res": "3:5", "yt": "WSH SEA highlights 2026-10-11 Александр Овечкин", "ya": "Вашингтон Сиэтл обзор матча Александр Овечкин голы", "goals": [{"t": "1-й период, 16:47 — счёт стал 2:1", "via": "Бросок: с кистей", "shot": {"x": 346, "y": 83, "n": "ОВЕ"}, "empty": false}]}, {"who": "Андрей Свечников", "club": "Каролина", "badge": ["goal", "1+1"], "what": "1 гол в матче Филадельфия — Каролина 1:4.", "score": "Филадельфия — Каролина", "res": "1:4", "yt": "PHI CAR highlights 2026-10-11 Андрей Свечников", "ya": "Филадельфия Каролина обзор матча Андрей Свечников голы", "goals": [{"t": "2-й период, 10:16 — счёт стал 0:1", "via": "Бросок: с кистей", "shot": {"x": 310, "y": 57, "n": "СВЕ"}, "empty": false}]}, {"who": "Владислав Гавриков", "club": "Рейнджерс", "badge": ["assist", "0+1"], "what": "1 результативная передача.", "score": "Рейнджерс — Ванкувер", "res": "6:2", "yt": "NYR VAN highlights 2026-10-11", "ya": "Рейнджерс Ванкувер обзор матча"}], "skaters": [["Андрей Свечников", "Каролина", "1+1", 1, "16:26"], ["Александр Овечкин", "Вашингтон", "1+0", 3, "16:56"], ["Владислав Гавриков", "Рейнджерс", "0+1", 1, "20:22"], ["Матвей Мичков", "Филадельфия", "0+0", 0, "12:54"], ["Павел Дорофеев", "Рейнджерс", "0+0", 2, "18:09"]], "goalies": [["Пётр Кочетков", "Каролина", "18 из 19", "94.7%"]], "games": [["Вашингтон", "Сиэтл", 3, 5, "", "Овечкин — 1 гол"], ["Рейнджерс", "Ванкувер", 6, 2, "", "Дорофеев; Гавриков — пас"], ["Филадельфия", "Каролина", 1, 4, "", "Мичков; Свечников — 1 гол; Кочетков 18/19"]], "tonight": [["Баффало", "Флорида", "22:00", "Куликов"], ["Нью-Джерси", "Оттава", "04:00", "Грицюк"], ["Миннесота", "Вегас", "05:00", "Капризов, Шабанов, Тренин, Юров, Барбашёв"]], "roster": [["Айлендерс", [["Илья Сорокин", "в", "", "4 матча, 93.7% сейвов, КН 1.77, «сухих» 1"], ["Семён Варламов", "в", "", "1 матч, 86.4% сейвов, КН 3.03"], ["Александр Романов", "з", "", "0+0 в 3 матчах, +/- +2"]]], ["Анахайм", [["Павел Минтюков", "з", "", "0+1 в 5 матчах, +/- +1"]]], ["Бостон", [["Никита Задоров", "з", "", "0+2 в 6 матчах, +/- +0"], ["Марат Хуснутдинов", "н", "", "1+1 в 6 матчах, +/- +3"]]], ["Вашингтон", [["Александр Овечкин", "н", "", "1+1 в 5 матчах, +/- +1"], ["Иван Мирошниченко", "н", "", "2+1 в 13 матчах, +/- +1"]]], ["Вегас", [["Иван Барбашёв", "н", "", "0+4 в 6 матчах, +/- +4"]]], ["Виннипег", [["Владислав Наместников", "н", "", "0+0 в 5 матчах, +/- -4"]]], ["Детройт", [["Даниил Тарасов", "в", "", "2 матча, 97.4% сейвов, КН 0.66, «сухих» 1"]]], ["Калгари", [["Ян Кузнецов", "з", "", "0+0 в 4 матчах, +/- -6"], ["Айдар Суниев", "н", "", "1+0 в 2 матчах, +/- -1"], ["Максим Цыплаков", "н", "", "0+0 в 4 матчах, +/- -3"], ["Матвей Гридин", "н", "", "0+1 в 5 матчах, +/- -9"]]], ["Каролина", [["Пётр Кочетков", "в", "", "3 матча, 91.2% сейвов, КН 1.64"], ["Андрей Свечников", "н", "", "4+4 в 7 матчах, +/- +3"]]], ["Коламбус", [["Иван Проворов", "з", "", "9+22 в 82 матчах, +/- +14"], ["Валерий Ничушкин", "н", "", "1+1 в 4 матчах, +/- -1"], ["Дмитрий Воронков", "н", "", "0+1 в 4 матчах, +/- +0"]]], ["Колорадо", [["Фёдор Свечков", "н", "", "1+2 в 5 матчах, +/- +5"]]], ["Лос-Анджелес", [["Артемий Панарин", "н", "", "3+1 в 4 матчах, +/- -4"]]], ["Миннесота", [["Данила Юров", "н", "", "1+1 в 5 матчах, +/- -1"], ["Кирилл Капризов", "н", "", "6+2 в 5 матчах, +/- +2"], ["Максим Шабанов", "н", "", "1+2 в 5 матчах, +/- -1"], ["Яков Тренин", "н", "", "0+0 в 5 матчах, +/- -3"]]], ["Монреаль", [["Иван Демидов", "н", "", "1+1 в 2 матчах, +/- +0"]]], ["Нью-Джерси", [["Арсений Грицюк", "н", "", "0+1 в 4 матчах, +/- -3"]]], ["Нэшвилл", [["Илья Любушкин", "з", "", "1+8 в 53 матчах, +/- +1"]]], ["Питтсбург", [["Сергей Мурашов", "в", "", "2 матча, 93.9% сейвов, КН 2.45"], ["Андрей Кузьменко", "н", "", "0+0 в 2 матчах, +/- -1"], ["Евгений Малкин", "н", "", "3+2 в 6 матчах, +/- +2"], ["Егор Чинахов", "н", "", "1+1 в 6 матчах, +/- -1"]]], ["Рейнджерс", [["Игорь Шестёркин", "в", "", "5 матчей, 92.7% сейвов, КН 1.79"], ["Владислав Гавриков", "з", "", "1+4 в 7 матчах, +/- +5"], ["Павел Дорофеев", "н", "", "1+2 в 7 матчах, +/- -3"]]], ["Сан-Хосе", [["Ярослав Аскаров", "в", "", "4 матча, 86.0% сейвов, КН 3.71"], ["Дмитрий Орлов", "з", "", "0+0 в 5 матчах, +/- -3"], ["Игорь Чернышов", "н", "", "2+1 в 5 матчах, +/- +0"]]], ["Сент-Луис", [["Алексей Торопченко", "н", "", "0+0 в 1 матче, +/- +0"], ["Павел Бучневич", "н", "", "1+1 в 5 матчах, +/- +1"]]], ["Тампа-Бэй", [["Андрей Василевский", "в", "", "4 матча, 89.2% сейвов, КН 2.29"], ["Илья Михеев", "н", "", "1+2 в 5 матчах, +/- +0"], ["Никита Кучеров", "н", "", "1+7 в 5 матчах, +/- +4"]]], ["Торонто", [["Сергей Бобровский", "в", "", "4 матча, 90.7% сейвов, КН 2.97"], ["Кирилл Марченко", "н", "", "1+4 в 6 матчах, +/- -2"]]], ["Филадельфия", [["Матвей Мичков", "н", "", "2+0 в 7 матчах, +/- -7"], ["Никита Гребенкин", "н", "", "4+10 в 55 матчах, +/- -7"]]], ["Флорида", [["Дмитрий Куликов", "з", "", "0+1 в 5 матчах, +/- +2"]]], ["Чикаго", [["Роман Канцеров", "н", "", "1+0 в 6 матчах, +/- -4"]]], ["Эдмонтон", [["Шакир Мухамадуллин", "з", "", "0+0 в 3 матчах, +/- -5"], ["Василий Подколзин", "н", "", "5+2 в 5 матчах, +/- +7"]]], ["Юта", [["Дмитрий Симашев", "з", "", "0+2 в 6 матчах, +/- +3"], ["Михаил Сергачёв", "з", "", "1+6 в 6 матчах, +/- +0"], ["Даниил Бут", "н", "", "1+0 в 6 матчах, +/- +1"]]]], "source": {"title": "официальные данные НХЛ (api-web.nhle.com)", "url": "https://www.nhl.com/scores"}};
+const DATA = {"updated": "12.10.2026 15:30 (Екб)", "night": "матчи в ночь на 12.10", "totals": [["3", "матчей"], ["6", "россиян на льду"], ["2", "шайб наших"]], "moments": [{"who": "Александр Овечкин", "club": "Вашингтон", "badge": ["goal", "1+0"], "what": "1 гол в матче Вашингтон — Сиэтл 3:5.", "score": "Вашингтон — Сиэтл", "res": "3:5", "yt": "WSH SEA highlights 2026-10-11 Александр Овечкин", "ya": "Вашингтон Сиэтл обзор матча Александр Овечкин голы", "goals": [{"t": "1-й период, 16:47 — счёт стал 2:1", "via": "Бросок: с кистей", "shot": {"x": 346, "y": 83, "n": "ОВЕ"}, "empty": false}]}, {"who": "Андрей Свечников", "club": "Каролина", "badge": ["goal", "1+1"], "what": "1 гол в матче Филадельфия — Каролина 1:4.", "score": "Филадельфия — Каролина", "res": "1:4", "yt": "PHI CAR highlights 2026-10-11 Андрей Свечников", "ya": "Филадельфия Каролина обзор матча Андрей Свечников голы", "goals": [{"t": "2-й период, 10:16 — счёт стал 0:1", "via": "Бросок: с кистей", "shot": {"x": 310, "y": 57, "n": "СВЕ"}, "empty": false}]}, {"who": "Владислав Гавриков", "club": "Рейнджерс", "badge": ["assist", "0+1"], "what": "1 результативная передача.", "score": "Рейнджерс — Ванкувер", "res": "6:2", "yt": "NYR VAN highlights 2026-10-11", "ya": "Рейнджерс Ванкувер обзор матча"}], "skaters": [["Андрей Свечников", "Каролина", "1+1", 1, "16:26"], ["Александр Овечкин", "Вашингтон", "1+0", 3, "16:56"], ["Владислав Гавриков", "Рейнджерс", "0+1", 1, "20:22"], ["Матвей Мичков", "Филадельфия", "0+0", 0, "12:54"], ["Павел Дорофеев", "Рейнджерс", "0+0", 2, "18:09"]], "goalies": [["Пётр Кочетков", "Каролина", "18 из 19", "94.7%"]], "games": [["Вашингтон", "Сиэтл", 3, 5, "", "Овечкин — 1 гол"], ["Рейнджерс", "Ванкувер", 6, 2, "", "Дорофеев; Гавриков — пас"], ["Филадельфия", "Каролина", 1, 4, "", "Мичков; Свечников — 1 гол; Кочетков 18/19"]], "tonight": [["Баффало", "Флорида", "22:00", "Куликов"], ["Нью-Джерси", "Оттава", "04:00", "Грицюк"], ["Миннесота", "Вегас", "05:00", "Капризов, Шабанов, Тренин, Юров, Барбашёв"]], "roster": [["Айлендерс", [["Илья Сорокин", "в", "", "4 матча, 93.7% сейвов, КН 1.77, «сухих» 1"], ["Семён Варламов", "в", "", "1 матч, 86.4% сейвов, КН 3.03"], ["Александр Романов", "з", "", "0+0 в 3 матчах, +/- +2"]]], ["Анахайм", [["Павел Минтюков", "з", "", "0+1 в 5 матчах, +/- +1"]]], ["Бостон", [["Никита Задоров", "з", "", "0+2 в 6 матчах, +/- +0"], ["Марат Хуснутдинов", "н", "", "1+1 в 6 матчах, +/- +3"]]], ["Вашингтон", [["Александр Овечкин", "н", "", "1+1 в 5 матчах, +/- +1"], ["Иван Мирошниченко", "н", "", "2+1 в 13 матчах, +/- +1"]]], ["Вегас", [["Иван Барбашёв", "н", "", "0+4 в 6 матчах, +/- +4"]]], ["Виннипег", [["Владислав Наместников", "н", "", "0+0 в 5 матчах, +/- -4"]]], ["Детройт", [["Даниил Тарасов", "в", "", "2 матча, 97.4% сейвов, КН 0.66, «сухих» 1"]]], ["Калгари", [["Ян Кузнецов", "з", "", "0+0 в 4 матчах, +/- -6"], ["Айдар Суниев", "н", "", "1+0 в 2 матчах, +/- -1"], ["Максим Цыплаков", "н", "", "0+0 в 4 матчах, +/- -3"], ["Матвей Гридин", "н", "", "0+1 в 5 матчах, +/- -9"]]], ["Каролина", [["Пётр Кочетков", "в", "", "3 матча, 91.2% сейвов, КН 1.64"], ["Андрей Свечников", "н", "", "4+4 в 7 матчах, +/- +3"]]], ["Коламбус", [["Иван Проворов", "з", "", "9+22 в 82 матчах, +/- +14"], ["Валерий Ничушкин", "н", "", "1+1 в 4 матчах, +/- -1"], ["Дмитрий Воронков", "н", "", "0+1 в 4 матчах, +/- +0"]]], ["Колорадо", [["Фёдор Свечков", "н", "", "1+2 в 5 матчах, +/- +5"]]], ["Лос-Анджелес", [["Артемий Панарин", "н", "", "3+1 в 4 матчах, +/- -4"]]], ["Миннесота", [["Данила Юров", "н", "", "1+1 в 5 матчах, +/- -1"], ["Кирилл Капризов", "н", "", "6+2 в 5 матчах, +/- +2"], ["Максим Шабанов", "н", "", "1+2 в 5 матчах, +/- -1"], ["Яков Тренин", "н", "", "0+0 в 5 матчах, +/- -3"]]], ["Монреаль", [["Иван Демидов", "н", "", "1+1 в 2 матчах, +/- +0"]]], ["Нью-Джерси", [["Арсений Грицюк", "н", "", "0+1 в 4 матчах, +/- -3"]]], ["Нэшвилл", [["Илья Любушкин", "з", "", "1+8 в 53 матчах, +/- +1"]]], ["Питтсбург", [["Сергей Мурашов", "в", "", "2 матча, 93.9% сейвов, КН 2.45"], ["Андрей Кузьменко", "н", "", "0+0 в 2 матчах, +/- -1"], ["Евгений Малкин", "н", "", "3+2 в 6 матчах, +/- +2"], ["Егор Чинахов", "н", "", "1+1 в 6 матчах, +/- -1"]]], ["Рейнджерс", [["Игорь Шестёркин", "в", "", "5 матчей, 92.7% сейвов, КН 1.79"], ["Владислав Гавриков", "з", "", "1+4 в 7 матчах, +/- +5"], ["Павел Дорофеев", "н", "", "1+2 в 7 матчах, +/- -3"]]], ["Сан-Хосе", [["Ярослав Аскаров", "в", "", "4 матча, 86.0% сейвов, КН 3.71"], ["Дмитрий Орлов", "з", "", "0+0 в 5 матчах, +/- -3"], ["Игорь Чернышов", "н", "", "2+1 в 5 матчах, +/- +0"]]], ["Сент-Луис", [["Алексей Торопченко", "н", "", "0+0 в 1 матче, +/- +0"], ["Павел Бучневич", "н", "", "1+1 в 5 матчах, +/- +1"]]], ["Тампа-Бэй", [["Андрей Василевский", "в", "", "4 матча, 89.2% сейвов, КН 2.29"], ["Илья Михеев", "н", "", "1+2 в 5 матчах, +/- +0"], ["Никита Кучеров", "н", "", "1+7 в 5 матчах, +/- +4"]]], ["Торонто", [["Сергей Бобровский", "в", "", "4 матча, 90.7% сейвов, КН 2.97"], ["Кирилл Марченко", "н", "", "1+4 в 6 матчах, +/- -2"]]], ["Филадельфия", [["Матвей Мичков", "н", "", "2+0 в 7 матчах, +/- -7"], ["Никита Гребенкин", "н", "", "4+10 в 55 матчах, +/- -7"]]], ["Флорида", [["Дмитрий Куликов", "з", "", "0+1 в 5 матчах, +/- +2"]]], ["Чикаго", [["Роман Канцеров", "н", "", "1+0 в 6 матчах, +/- -4"]]], ["Эдмонтон", [["Шакир Мухамадуллин", "з", "", "0+0 в 3 матчах, +/- -5"], ["Василий Подколзин", "н", "", "5+2 в 5 матчах, +/- +7"]]], ["Юта", [["Дмитрий Симашев", "з", "", "0+2 в 6 матчах, +/- +3"], ["Михаил Сергачёв", "з", "", "1+6 в 6 матчах, +/- +0"], ["Даниил Бут", "н", "", "1+0 в 6 матчах, +/- +1"]]]], "logos": {"Каролина": "https://assets.nhle.com/logos/nhl/svg/CAR_light.svg", "Вегас": "https://assets.nhle.com/logos/nhl/svg/VGK_light.svg", "Рейнджерс": "https://assets.nhle.com/logos/nhl/svg/NYR_light.svg", "Эдмонтон": "https://assets.nhle.com/logos/nhl/svg/EDM_light.svg", "Тампа-Бэй": "https://assets.nhle.com/logos/nhl/svg/TBL_light.svg", "Анахайм": "https://assets.nhle.com/logos/nhl/svg/ANA_light.svg", "Оттава": "https://assets.nhle.com/logos/nhl/svg/OTT_light.svg", "Сиэтл": "https://assets.nhle.com/logos/nhl/svg/SEA_light.svg", "Юта": "https://assets.nhle.com/logos/nhl/svg/UTA_light.svg", "Бостон": "https://assets.nhle.com/logos/nhl/svg/BOS_light.svg", "Миннесота": "https://assets.nhle.com/logos/nhl/svg/MIN_light.svg", "Виннипег": "https://assets.nhle.com/logos/nhl/svg/WPG_light.svg", "Торонто": "https://assets.nhle.com/logos/nhl/svg/TOR_light.svg", "Питтсбург": "https://assets.nhle.com/logos/nhl/svg/PIT_light.svg", "Колорадо": "https://assets.nhle.com/logos/nhl/svg/COL_light.svg", "Вашингтон": "https://assets.nhle.com/logos/nhl/svg/WSH_secondary_light.svg", "Нэшвилл": "https://assets.nhle.com/logos/nhl/svg/NSH_light.svg", "Флорида": "https://assets.nhle.com/logos/nhl/svg/FLA_light.svg", "Сан-Хосе": "https://assets.nhle.com/logos/nhl/svg/SJS_light.svg", "Даллас": "https://assets.nhle.com/logos/nhl/svg/DAL_light.svg", "Сент-Луис": "https://assets.nhle.com/logos/nhl/svg/STL_light.svg", "Монреаль": "https://assets.nhle.com/logos/nhl/svg/MTL_light.svg", "Нью-Джерси": "https://assets.nhle.com/logos/nhl/svg/NJD_light.svg", "Коламбус": "https://assets.nhle.com/logos/nhl/svg/CBJ_light.svg", "Айлендерс": "https://assets.nhle.com/logos/nhl/svg/NYI_light.svg", "Баффало": "https://assets.nhle.com/logos/nhl/svg/BUF_light.svg", "Ванкувер": "https://assets.nhle.com/logos/nhl/svg/VAN_light.svg", "Детройт": "https://assets.nhle.com/logos/nhl/svg/DET_light.svg", "Лос-Анджелес": "https://assets.nhle.com/logos/nhl/svg/LAK_light.svg", "Чикаго": "https://assets.nhle.com/logos/nhl/svg/CHI_light.svg", "Филадельфия": "https://assets.nhle.com/logos/nhl/svg/PHI_light.svg", "Калгари": "https://assets.nhle.com/logos/nhl/svg/CGY_light.svg"}, "source": {"title": "официальные данные НХЛ (api-web.nhle.com)", "url": "https://www.nhl.com/scores"}};
 
 // ===== СХЕМА ГОЛА (площадка 400×170, атака слева направо, ворота справа) =====
 let rinkN = 0;
@@ -195,8 +205,10 @@ function rink(g){
   const net = {x:372, y:85};
   const from = g.pass || g.start || null;
   const path1 = from ? `M${from.x},${from.y} L${g.shot.x},${g.shot.y}` : '';
-  const path2 = `M${g.shot.x},${g.shot.y} L${net.x-6},${net.y}`;
+  const path2 = `M${g.shot.x+18},${g.shot.y+5} L${net.x-6},${net.y}`;
   const d1 = from ? (g.start ? 1.4 : 0.7) : 0;
+  const skFrom = g.start ? g.start : {x: Math.max(60, g.shot.x - 90), y: 85 + (g.shot.y - 85) * 0.4};
+  const skPath = `M${skFrom.x},${skFrom.y} L${g.shot.x},${g.shot.y}`;
   const pl = (p,cls,label) => `<circle class="pl ${cls}" cx="${p.x}" cy="${p.y}" r="9"/><text class="nm" x="${p.x}" y="${p.y}">${esc(p.n)}</text>${label?`<text class="lbl" x="${p.x}" y="${p.y+17}">${esc(label)}</text>`:''}`;
   return `
   <p class="rink-cap"><b>${esc(g.t)}.</b> ${esc(g.via)}</p>
@@ -216,20 +228,28 @@ function rink(g){
     ${g.empty ? `<text class="lbl" x="372" y="68">пустые ворота</text>` : pl({x:364,y:85,n:"ВР"},'g')}
     ${g.pass ? pl(g.pass,'a','пас') : ''}
     ${g.start ? pl(g.start,'s','перехват') : ''}
-    ${pl(g.shot,'s','бросок')}
+    <text class="lbl" x="${g.shot.x}" y="${g.shot.y+22}">${esc(g.shot.n)} · бросок</text>
+    <g class="skater">
+      <animateMotion id="${id}s" dur="${g.start ? 1.4 : 0.9}s" begin="indefinite" fill="freeze" path="${skPath}"/>
+      <line class="sk" x1="-6" y1="6" x2="0" y2="-2"/><line class="sk" x1="0" y1="-2" x2="7" y2="5"/>
+      <line class="sk" x1="0" y1="-2" x2="0" y2="-9"/><line class="sk" x1="0" y1="-7" x2="8" y2="-3"/>
+      <line class="sk-stick" x1="8" y1="-3" x2="16" y2="6"/><line class="sk-stick" x1="16" y1="6" x2="21" y2="5"/>
+      <circle class="sk-head" cx="0" cy="-13" r="3.8"/>
+    </g>
     <circle class="puck" r="3.2" cx="0" cy="0" opacity="0">
-      <set attributeName="opacity" to="1" begin="${from ? id+'a.begin' : id+'b.begin'}" fill="freeze"/>
-      ${from ? `<animateMotion id="${id}a" dur="${d1}s" begin="indefinite" fill="freeze" path="${path1}"/>` : ''}
-      <animateMotion id="${id}b" dur="0.5s" begin="${from ? id+'a.end+0.15s' : 'indefinite'}" fill="freeze" path="${path2}"/>
+      <set attributeName="opacity" to="1" begin="${id}b.begin" fill="freeze"/>
+      <animateMotion id="${id}b" dur="0.5s" begin="${id}s.end+0.1s" fill="freeze" path="${path2}"/>
     </circle>
   </svg>`;
 }
 function playRink(id){
-  const a = document.getElementById(id+'a'); const b = document.getElementById(id+'b');
-  if(a){ a.beginElement(); } else if(b){ b.beginElement(); }
+  const sk = document.getElementById(id+'s');
+  if(sk){ sk.beginElement(); }
 }
 
 // ===== РЕНДЕР =====
+const LOGO = (DATA.logos||{});
+const lg = club => LOGO[club] ? `<img class="lg" src="${esc(LOGO[club])}" alt="" loading="lazy">` : '';
 const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const yt = q => "https://www.youtube.com/results?search_query=" + encodeURIComponent(q);
 const ya = q => "https://yandex.ru/video/search?text=" + encodeURIComponent(q);
@@ -250,7 +270,7 @@ document.getElementById('moments').innerHTML = `
     <div>
       <ul class="goal-list" id="goalList" role="listbox" aria-label="Голы россиян">
         ${PLAYERS.map(p => `<li class="player" role="option" tabindex="0" data-p="${p.key}" data-i="${p.first}" aria-selected="false">
-          <span class="who">${esc(p.who)}</span>
+          <span class="who">${lg(p.club)}${esc(p.who)}</span>
           <span class="cnt">${p.n===1?'1 гол':p.n<5?p.n+' гола':p.n+' голов'}</span>
           <span class="meta">${esc(p.club)} · ${esc(p.score)} ${esc(p.res)}</span></li>
           ${p.n>1 ? p.items.map((i,k) => `<li class="sub" role="option" tabindex="0" data-p="${p.key}" data-i="${i}" aria-selected="false" hidden>
@@ -262,7 +282,7 @@ document.getElementById('moments').innerHTML = `
   <h2>Ещё за ночь</h2>
   ${OTHER.map(m => `
   <article class="moment">
-    <div class="m-top"><span class="who">${esc(m.who)}</span><span class="club">${esc(m.club)}</span>
+    <div class="m-top"><span class="who">${lg(m.club)}${esc(m.who)}</span><span class="club">${esc(m.club)}</span>
       <span class="badge ${m.badge[0]}">${esc(m.badge[1])}</span></div>
     <p class="m-what">${esc(m.what)}</p>
     <p class="m-score">${esc(m.score)} <b>${esc(m.res)}</b></p>
@@ -283,7 +303,7 @@ function showGoal(i, scroll){
   });
   const st = document.getElementById('stage');
   st.innerHTML = `
-    <div class="stage-head"><span class="who">${esc(g.who)}</span><span class="club">${esc(g.club)}</span>
+    <div class="stage-head"><span class="who">${lg(g.club)}${esc(g.who)}</span><span class="club">${esc(g.club)}</span>
       <span class="badge goal">${esc(g.score)} ${esc(g.res)}</span></div>
     <div class="rink-wrap">${rink(g)}</div>
     <div class="links">
@@ -310,7 +330,7 @@ const total = DATA.roster.reduce((a,[,ps]) => a+ps.length, 0);
 document.getElementById('roster').innerHTML = `
   <p class="note">${total} россиян в ${DATA.roster.length} клубах на старт сезона. Красным — кто набрал очки этой ночью; под именем — строка за ночь и за сезон.</p>
   <div class="roster-grid">${DATA.roster.map(([club, ps]) => `
-  <div class="club"><h3>${esc(club)}<span>${ps.length}</span></h3>
+  <div class="club"><h3><span class="cl">${lg(club)}${esc(club)}</span><span>${ps.length}</span></h3>
     ${ps.map(([n,pos,st,season]) => { const ng = NIGHT[n]; return `
     <div class="pr">
       <span class="pos ${pos==='в'?'v':pos==='з'?'z':''}" title="${posName[pos]}">${pos.toUpperCase()}</span>
@@ -335,14 +355,14 @@ document.getElementById('players').innerHTML = `
 
 document.getElementById('games').innerHTML = DATA.games.map(([h,a,hs,as,x,ru]) => `
   <div class="game">
-    <div class="teams"><span>${esc(h)}</span><span>${esc(a)}</span></div>
+    <div class="teams"><span>${lg(h)}${esc(h)}</span><span>${lg(a)}${esc(a)}</span></div>
     <div class="score">${hs}:${as}${x?`<small>${esc(x)}</small>`:''}</div>
     <div class="ru"><b>Наши:</b> ${esc(ru)}</div>
   </div>`).join('');
 
 document.getElementById('tonight').innerHTML = `<p class="note">Время екатеринбургское.</p>` + DATA.tonight.map(([h,a,t,ru]) => `
   <div class="game">
-    <div class="teams"><span>${esc(h)}</span><span>${esc(a)}</span></div>
+    <div class="teams"><span>${lg(h)}${esc(h)}</span><span>${lg(a)}${esc(a)}</span></div>
     <div class="time">${esc(t)}</div>
     <div class="ru">${esc(ru)}</div>
   </div>`).join('');
