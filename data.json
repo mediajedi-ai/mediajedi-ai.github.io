@@ -1,5 +1,5 @@
 {
- "updated": "15.10.2026 07:17 (Екб)",
+ "updated": "15.10.2026 09:17 (Екб)",
  "night": "матчи в ночь на 15.10",
  "totals": [
   [
@@ -23,9 +23,9 @@
     "goal",
     "1+0"
    ],
-   "what": "1 гол в матче Вашингтон — Монреаль 5:3 идёт.",
+   "what": "1 гол в матче Вашингтон — Монреаль 5:4.",
    "score": "Вашингтон — Монреаль",
-   "res": "5:3 идёт",
+   "res": "5:4",
    "yt": "WSH MTL highlights 2026-10-14 Иван Мирошниченко",
    "ya": "Вашингтон Монреаль обзор матча Иван Мирошниченко голы",
    "goals": [
@@ -51,7 +51,7 @@
    ],
    "what": "1 результативная передача.",
    "score": "Вашингтон — Монреаль",
-   "res": "5:3 идёт",
+   "res": "5:4",
    "yt": "WSH MTL highlights 2026-10-14",
    "ya": "Вашингтон Монреаль обзор матча"
   }
@@ -77,8 +77,8 @@
    "Фёдор Свечков",
    "Колорадо",
    "0+0",
-   2,
-   "09:27",
+   3,
+   "15:47",
    8482768
   ]
  ],
@@ -88,16 +88,16 @@
    "Вашингтон",
    "Монреаль",
    5,
-   3,
-   "идёт",
+   4,
+   "",
    "Овечкин — пас; Мирошниченко — 1 гол"
   ],
   [
    "Колорадо",
    "Даллас",
-   1,
-   1,
-   "идёт",
+   2,
+   3,
+   "Б",
    "Свечков"
   ]
  ],
@@ -240,7 +240,7 @@
      "Александр Овечкин",
      "н",
      "",
-     "1+1 в 6 матчах, +/- +1",
+     "1+2 в 7 матчах, +/- +2",
      8471214,
      "8"
     ],
@@ -248,7 +248,7 @@
      "Иван Мирошниченко",
      "н",
      "",
-     "2+1 в 13 матчах, +/- +1",
+     "1+0 в 1 матче, +/- +1",
      8483491,
      "63"
     ]
@@ -308,7 +308,7 @@
      "Айдар Суниев",
      "н",
      "",
-     "2+1 в 3 матчах, +/- +1",
+     "2+1 в 3 матчах, +/- +0",
      8484234,
      "61"
     ],
@@ -387,7 +387,7 @@
      "Фёдор Свечков",
      "н",
      "",
-     "1+2 в 6 матчах, +/- +5",
+     "1+2 в 7 матчах, +/- +5",
      8482768,
      "9"
     ]
@@ -756,22 +756,22 @@
   "Сиэтл": "https://assets.nhle.com/logos/nhl/svg/SEA_light.svg",
   "Оттава": "https://assets.nhle.com/logos/nhl/svg/OTT_light.svg",
   "Виннипег": "https://assets.nhle.com/logos/nhl/svg/WPG_light.svg",
-  "Миннесота": "https://assets.nhle.com/logos/nhl/svg/MIN_light.svg",
   "Колорадо": "https://assets.nhle.com/logos/nhl/svg/COL_light.svg",
+  "Миннесота": "https://assets.nhle.com/logos/nhl/svg/MIN_light.svg",
   "Тампа-Бэй": "https://assets.nhle.com/logos/nhl/svg/TBL_light.svg",
   "Анахайм": "https://assets.nhle.com/logos/nhl/svg/ANA_light.svg",
+  "Вашингтон": "https://assets.nhle.com/logos/nhl/svg/WSH_secondary_light.svg",
   "Флорида": "https://assets.nhle.com/logos/nhl/svg/FLA_light.svg",
   "Сент-Луис": "https://assets.nhle.com/logos/nhl/svg/STL_light.svg",
-  "Монреаль": "https://assets.nhle.com/logos/nhl/svg/MTL_light.svg",
   "Торонто": "https://assets.nhle.com/logos/nhl/svg/TOR_light.svg",
   "Баффало": "https://assets.nhle.com/logos/nhl/svg/BUF_light.svg",
+  "Даллас": "https://assets.nhle.com/logos/nhl/svg/DAL_light.svg",
   "Питтсбург": "https://assets.nhle.com/logos/nhl/svg/PIT_light.svg",
+  "Монреаль": "https://assets.nhle.com/logos/nhl/svg/MTL_light.svg",
   "Айлендерс": "https://assets.nhle.com/logos/nhl/svg/NYI_light.svg",
-  "Вашингтон": "https://assets.nhle.com/logos/nhl/svg/WSH_secondary_light.svg",
   "Нэшвилл": "https://assets.nhle.com/logos/nhl/svg/NSH_light.svg",
   "Нью-Джерси": "https://assets.nhle.com/logos/nhl/svg/NJD_light.svg",
   "Сан-Хосе": "https://assets.nhle.com/logos/nhl/svg/SJS_light.svg",
-  "Даллас": "https://assets.nhle.com/logos/nhl/svg/DAL_light.svg",
   "Коламбус": "https://assets.nhle.com/logos/nhl/svg/CBJ_light.svg",
   "Детройт": "https://assets.nhle.com/logos/nhl/svg/DET_light.svg",
   "Чикаго": "https://assets.nhle.com/logos/nhl/svg/CHI_light.svg",
@@ -1368,6 +1368,66 @@
     "xy": [
      -69.0,
      22.0
+    ],
+    "gid": 2026020107
+   },
+   {
+    "t": "fo-loss",
+    "p": 3,
+    "m": "02:56",
+    "xy": [
+     69.0,
+     -22.0
+    ],
+    "gid": 2026020107
+   },
+   {
+    "t": "fo-loss",
+    "p": 3,
+    "m": "08:21",
+    "xy": [
+     0.0,
+     0.0
+    ],
+    "gid": 2026020107
+   },
+   {
+    "t": "fo-loss",
+    "p": 3,
+    "m": "10:54",
+    "xy": [
+     69.0,
+     22.0
+    ],
+    "gid": 2026020107
+   },
+   {
+    "t": "takeaway",
+    "p": 3,
+    "m": "14:52",
+    "xy": [
+     68.0,
+     38.0
+    ],
+    "gid": 2026020107
+   },
+   {
+    "t": "shot-on-goal",
+    "p": 3,
+    "m": "15:07",
+    "xy": [
+     61.0,
+     1.0
+    ],
+    "gid": 2026020107
+   },
+   {
+    "t": "missed-shot",
+    "p": 4,
+    "m": "03:46",
+    "xy": [
+     83.0,
+     -7.0
     ],
     "gid": 2026020107
    }
