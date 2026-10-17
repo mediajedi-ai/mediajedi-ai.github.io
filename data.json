@@ -1,5 +1,5 @@
 {
- "updated": "17.10.2026 09:14 (Екб)",
+ "updated": "17.10.2026 11:13 (Екб)",
  "night": "матчи в ночь на 17.10",
  "totals": [
   [
@@ -64,8 +64,8 @@
    "Марат Хуснутдинов",
    "Бостон",
    "0+0",
-   1,
-   "11:30",
+   2,
+   "14:35",
    8482177
   ],
   [
@@ -73,7 +73,7 @@
    "Бостон",
    "0+0",
    0,
-   "12:30",
+   "17:42",
    8477507
   ],
   [
@@ -81,7 +81,7 @@
    "Анахайм",
    "0+0",
    0,
-   "13:38",
+   "16:05",
    8483490
   ],
   [
@@ -107,8 +107,8 @@
    "Анахайм",
    "Бостон",
    2,
-   2,
-   "идёт",
+   4,
+   "",
    "Минтюков; Хуснутдинов; Задоров"
   ]
  ],
@@ -235,7 +235,7 @@
      "Павел Минтюков",
      "з",
      "",
-     "0+1 в 6 матчах, +/- +0",
+     "0+1 в 7 матчах, +/- -1",
      8483490,
      "98"
     ]
@@ -248,7 +248,7 @@
      "Никита Задоров",
      "з",
      "",
-     "0+3 в 7 матчах, +/- +2",
+     "0+3 в 8 матчах, +/- +1",
      8477507,
      "91"
     ],
@@ -256,7 +256,7 @@
      "Марат Хуснутдинов",
      "н",
      "",
-     "1+2 в 7 матчах, +/- +6",
+     "1+2 в 8 матчах, +/- +5",
      8482177,
      "92"
     ]
@@ -518,7 +518,7 @@
      "Артём Зуб",
      "з",
      "",
-     "0+1 в 1 матче, +/- +1",
+     "в этом сезоне ещё не играл",
      8482245,
      "2"
     ]
@@ -792,19 +792,19 @@
   "Вегас": "https://assets.nhle.com/logos/nhl/svg/VGK_light.svg",
   "Каролина": "https://assets.nhle.com/logos/nhl/svg/CAR_light.svg",
   "Юта": "https://assets.nhle.com/logos/nhl/svg/UTA_light.svg",
+  "Бостон": "https://assets.nhle.com/logos/nhl/svg/BOS_light.svg",
   "Оттава": "https://assets.nhle.com/logos/nhl/svg/OTT_light.svg",
   "Рейнджерс": "https://assets.nhle.com/logos/nhl/svg/NYR_light.svg",
   "Эдмонтон": "https://assets.nhle.com/logos/nhl/svg/EDM_light.svg",
   "Колорадо": "https://assets.nhle.com/logos/nhl/svg/COL_light.svg",
   "Миннесота": "https://assets.nhle.com/logos/nhl/svg/MIN_light.svg",
   "Сиэтл": "https://assets.nhle.com/logos/nhl/svg/SEA_light.svg",
-  "Бостон": "https://assets.nhle.com/logos/nhl/svg/BOS_light.svg",
   "Тампа-Бэй": "https://assets.nhle.com/logos/nhl/svg/TBL_light.svg",
   "Виннипег": "https://assets.nhle.com/logos/nhl/svg/WPG_light.svg",
   "Флорида": "https://assets.nhle.com/logos/nhl/svg/FLA_light.svg",
   "Баффало": "https://assets.nhle.com/logos/nhl/svg/BUF_light.svg",
-  "Анахайм": "https://assets.nhle.com/logos/nhl/svg/ANA_light.svg",
   "Вашингтон": "https://assets.nhle.com/logos/nhl/svg/WSH_secondary_light.svg",
+  "Анахайм": "https://assets.nhle.com/logos/nhl/svg/ANA_light.svg",
   "Нью-Джерси": "https://assets.nhle.com/logos/nhl/svg/NJD_light.svg",
   "Сан-Хосе": "https://assets.nhle.com/logos/nhl/svg/SJS_light.svg",
   "Торонто": "https://assets.nhle.com/logos/nhl/svg/TOR_light.svg",
@@ -1323,74 +1323,6 @@
     "gid": 2026020119
    }
   ],
-  "8471215": [
-   {
-    "t": "shot-blocked",
-    "p": 1,
-    "m": "04:25",
-    "xy": [
-     38.0,
-     13.0
-    ],
-    "gid": 2026020119
-   },
-   {
-    "t": "shot-on-goal",
-    "p": 1,
-    "m": "08:01",
-    "xy": [
-     82.0,
-     7.0
-    ],
-    "gid": 2026020119
-   },
-   {
-    "t": "fo-loss",
-    "p": 1,
-    "m": "08:03",
-    "xy": [
-     69.0,
-     22.0
-    ],
-    "gid": 2026020119
-   },
-   {
-    "t": "goal",
-    "p": 1,
-    "m": "08:28",
-    "xy": [
-     66.0,
-     1.0
-    ],
-    "gid": 2026020119,
-    "sc": "0:1",
-    "by": "Малкин",
-    "as": [
-     "Koivunen",
-     "Karlsson"
-    ]
-   },
-   {
-    "t": "giveaway",
-    "p": 2,
-    "m": "12:27",
-    "xy": [
-     44.0,
-     -4.0
-    ],
-    "gid": 2026020119
-   },
-   {
-    "t": "hit-taken",
-    "p": 3,
-    "m": "08:20",
-    "xy": [
-     99.0,
-     10.0
-    ],
-    "gid": 2026020119
-   }
-  ],
   "8483808": [
    {
     "t": "hit",
@@ -1473,6 +1405,74 @@
     "gid": 2026020119
    }
   ],
+  "8471215": [
+   {
+    "t": "shot-blocked",
+    "p": 1,
+    "m": "04:25",
+    "xy": [
+     38.0,
+     13.0
+    ],
+    "gid": 2026020119
+   },
+   {
+    "t": "shot-on-goal",
+    "p": 1,
+    "m": "08:01",
+    "xy": [
+     82.0,
+     7.0
+    ],
+    "gid": 2026020119
+   },
+   {
+    "t": "fo-loss",
+    "p": 1,
+    "m": "08:03",
+    "xy": [
+     69.0,
+     22.0
+    ],
+    "gid": 2026020119
+   },
+   {
+    "t": "goal",
+    "p": 1,
+    "m": "08:28",
+    "xy": [
+     66.0,
+     1.0
+    ],
+    "gid": 2026020119,
+    "sc": "0:1",
+    "by": "Малкин",
+    "as": [
+     "Koivunen",
+     "Karlsson"
+    ]
+   },
+   {
+    "t": "giveaway",
+    "p": 2,
+    "m": "12:27",
+    "xy": [
+     44.0,
+     -4.0
+    ],
+    "gid": 2026020119
+   },
+   {
+    "t": "hit-taken",
+    "p": 3,
+    "m": "08:20",
+    "xy": [
+     99.0,
+     10.0
+    ],
+    "gid": 2026020119
+   }
+  ],
   "8482177": [
    {
     "t": "hit-taken",
@@ -1551,6 +1551,26 @@
     "xy": [
      -44.0,
      12.0
+    ],
+    "gid": 2026020120
+   },
+   {
+    "t": "shot-on-goal",
+    "p": 3,
+    "m": "08:33",
+    "xy": [
+     72.0,
+     3.0
+    ],
+    "gid": 2026020120
+   },
+   {
+    "t": "hit-taken",
+    "p": 3,
+    "m": "14:52",
+    "xy": [
+     43.0,
+     -41.0
     ],
     "gid": 2026020120
    }
@@ -1648,6 +1668,26 @@
     ],
     "gid": 2026020120,
     "min": 2
+   },
+   {
+    "t": "hit",
+    "p": 3,
+    "m": "14:00",
+    "xy": [
+     -37.0,
+     41.0
+    ],
+    "gid": 2026020120
+   },
+   {
+    "t": "hit",
+    "p": 3,
+    "m": "17:31",
+    "xy": [
+     -31.0,
+     37.0
+    ],
+    "gid": 2026020120
    }
   ],
   "8483490": [
